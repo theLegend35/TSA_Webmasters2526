@@ -1,16 +1,16 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { auth, db } from '../firebase'; // Ensure this path is correct based on your folder structure
+import { auth, db } from '../firebase'; 
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 
 interface AuthContextType {
   user: any | null;
-  loading: boolean;        // THIS WAS MISSING
-  logout: () => void;      // THIS WAS MISSING
-  theme: string;           // THIS WAS MISSING
-  toggleTheme: () => void; // THIS WAS MISSING
-  lang: string;            // THIS WAS MISSING
-  toggleLang: () => void;  // THIS WAS MISSING
+  loading: boolean;       
+  logout: () => void;     
+  theme: string;           
+  toggleTheme: () => void; 
+  lang: string;            
+  toggleLang: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -20,7 +20,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
   const [theme, setTheme] = useState('light');
   const [lang, setLang] = useState('en');
--
+
 useEffect(() => {
   const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
     if (firebaseUser) {
