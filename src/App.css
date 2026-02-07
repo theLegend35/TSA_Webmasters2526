@@ -758,37 +758,31 @@ body {
   font-size: 0.95rem;
 }
 
-/* EXTEND NAV TO EDGES */
 .nav-container {
-  max-width: 90%; /* Removes the 1200px limit */
-  padding: 0 40px; /* Adds a clean gap from the screen edge */
+  max-width: 90%;
+  padding: 0 40px;
 }
 
-/* Ensure Auth buttons push to the far right */
 .nav-auth {
   margin-left: auto; 
 }
 
-/* Add vertical spacing between the resource cards */
 .spotlight-grid {
   display: flex;
   flex-direction: column;
-  gap: 24px; /* Adjust this number to increase/decrease the padding between cards */
+  gap: 24px;
   margin-top: 30px;
 }
 
-/* Ensure cards are distinct */
 .resource-card-interactive {
   width: 100%;
-  margin-bottom: 0; /* Use gap above instead for cleaner spacing */
+  margin-bottom: 0;
 }
-/* Hides the default eye icon in Edge/Chrome */
 input::-ms-reveal,
 input::-ms-clear {
   display: none;
 }
 
-/* Specific fix for some Webkit browsers if needed */
 input::-webkit-contacts-auto-fill-button,
 input::-webkit-credentials-auto-fill-button {
   visibility: hidden;
@@ -796,28 +790,26 @@ input::-webkit-credentials-auto-fill-button {
   pointer-events: none;
 }
 
-/* Slider Layout */
 .resources-slider-container {
   display: flex;
   overflow-x: auto;
   scroll-behavior: smooth;
   gap: 20px;
   padding: 10px 0 30px 0;
-  scrollbar-width: none; /* Firefox */
+  scrollbar-width: none;
 }
 
 .resources-slider-container::-webkit-scrollbar {
-  display: none; /* Chrome/Safari */
+  display: none;
 }
 
-/* Arrow Buttons */
 .slider-controls {
   display: flex;
   gap: 10px;
 }
 
 .slider-arrow {
-  background: #3b82f6; /* Your Royal Blue */
+  background: #3b82f6;
   color: white;
   border: none;
   width: 35px;
@@ -838,7 +830,7 @@ input::-webkit-credentials-auto-fill-button {
 
 .card-image-placeholder {
   height: 160px;
-  background: #111827; /* Your Navy */
+  background: #111827;
   position: relative;
   display: flex;
   align-items: center;
@@ -883,9 +875,9 @@ input::-webkit-credentials-auto-fill-button {
 }
 
 .main-display-heading {
-  font-size: 3.2rem; /* Much bigger */
+  font-size: 3.2rem;
   font-weight: 800;
-  color: #111827; /* Navy */
+  color: #111827;
   margin-bottom: 40px;
   letter-spacing: -1px;
 }
@@ -894,7 +886,7 @@ input::-webkit-credentials-auto-fill-button {
   font-size: 1.8rem;
   font-weight: 700;
   color: #1f2937;
-  margin-bottom: 0; /* Aligned with arrows */
+  margin-bottom: 0;
 }
 
 .section-heading-large {
@@ -904,7 +896,6 @@ input::-webkit-credentials-auto-fill-button {
   color: #111827;
 }
 
-/* Container Spacing */
 .category-row-container {
   margin-bottom: 60px;
 }
@@ -912,13 +903,12 @@ input::-webkit-credentials-auto-fill-button {
 .section-header-flex {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end; /* Keeps title and arrows on same baseline */
+  align-items: flex-end;
   margin-bottom: 20px;
   padding-right: 10px;
 }
 
 
-/* --- TYPOGRAPHY --- */
 .main-display-heading {
   font-size: 3.5rem;
   font-weight: 800;
@@ -934,7 +924,6 @@ input::-webkit-credentials-auto-fill-button {
   margin: 0;
 }
 
-/* --- SLIDER & ROWS --- */
 .category-row-container {
   margin-bottom: 80px;
 }
@@ -959,7 +948,6 @@ input::-webkit-credentials-auto-fill-button {
   display: none;
 }
 
-/* --- BUTTONS --- */
 .slider-arrow {
   background: var(--hub-blue);
   color: #fff;
@@ -1045,31 +1033,26 @@ input::-webkit-credentials-auto-fill-button {
   display: inline-block;
   margin-top: 15px;
 }
-/* --- 1. SINGLE THEME SYSTEM --- */
 :root {
-  /* Brand Colors */
   --primary: #2563eb;
   --primary-dark: #1d4ed8;
   --hub-blue: #3b82f6;
   --hub-navy: #0f172a;
   
-  /* Light Mode Surfaces */
   --bg-color: #f8fafc;
   --card-bg: #ffffff;
   --nav-bg: #0f172a;
   --footer-bg: #ffffff;
   --border-color: #e2e8f0;
   
-  /* Text */
   --text-main: #334155;
   --text-muted: #64748b;
   --white: #ffffff;
 }
 
-/* One consolidated Dark Mode class */
 .dark-mode {
-  --bg-color: #020617; /* Deepest Midnight */
-  --card-bg: #1e293b;  /* Slate blue card */
+  --bg-color: #131729;
+  --card-bg: #1e293b;
   --nav-bg: #020617;
   --footer-bg: #020617;
   --border-color: #334155;
@@ -1079,7 +1062,6 @@ input::-webkit-credentials-auto-fill-button {
   --white: #f8fafc;
 }
 
-/* --- 2. GLOBAL RESET & BASE --- */
 * { box-sizing: border-box; }
 
 body {
@@ -1091,11 +1073,10 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* --- 3. LAYOUT FIXES (SIDEBAR FARTHER) --- */
 .home-grid-layout.farther-sidebar {
   display: grid;
   grid-template-columns: 1fr 320px;
-  gap: 100px; /* This creates the large gap you asked for */
+  gap: 100px;
   align-items: start;
 }
 
@@ -1106,7 +1087,6 @@ body {
   }
 }
 
-/* --- 4. NAVIGATION BAR --- */
 .navbar {
   background: var(--nav-bg);
   padding: 1.25rem 0;
@@ -1143,10 +1123,9 @@ body {
 
 .nav-links a:hover { color: var(--white); }
 
-/* --- 5. CATEGORY SLIDERS & CARDS --- */
 .section-header-flex {
   display: flex;
-  justify-content: space-between; /* Pushes arrows to the right */
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 30px;
 }
@@ -1176,7 +1155,6 @@ body {
 .card-details h3 { color: var(--text-main); }
 .card-details p { color: var(--text-muted); }
 
-/* --- 6. UTILITY BAR (App.jsx theme button) --- */
 .utility-bar {
   display: flex;
   justify-content: flex-end;
@@ -1184,28 +1162,23 @@ body {
   margin: 0 auto;
   padding: 20px;
 }
-/* App.css */
 
 .content-wrapper {
-  /* Increase max-width so there is actually room to move to the right */
   max-width: 1440px; 
   margin: 0 auto;
-  padding: 40px 40px; /* More padding on the edges */
+  padding: 40px 40px;
 }
 
 .home-grid-layout.farther-sidebar {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  /* This is the magic: pushes the two sides apart */
   justify-content: space-between; 
-  /* Increase this even more if you want a massive gap */
   gap: 50px; 
   width: 100%;
 }
 
 .sidebar-container {
-  /* This tells the sidebar: "Stay exactly this wide, do not squish" */
   width: 320px;
   flex-shrink: 0; 
   display: flex;
@@ -1213,17 +1186,16 @@ body {
   gap: 40px;
 }
 
-/* Card Image Styles */
 .card-main-img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Ensures image isn't squished */
+  object-fit: cover;
   display: block;
 }
 
 .card-image-placeholder {
   height: 180px;
-  background: #1a2a44; /* Your navy fallback */
+  background: #1a2a44;
   position: relative;
   overflow: hidden;
   display: flex;
@@ -1231,7 +1203,6 @@ body {
   justify-content: center;
 }
 
-/* Fix for the card actions */
 .card-contact-actions {
   margin-top: 12px;
 }
@@ -1239,7 +1210,7 @@ body {
 .learn-more-link {
   text-decoration: none;
   font-weight: 700;
-  color: #007bff; /* Adjust to your primary color */
+  color: #007bff;
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -1249,7 +1220,6 @@ body {
   text-decoration: underline;
 }
 
-/* --- MODERN DETAIL PAGE STYLES --- */
 .detail-page-root {
   --dp-bg: #f3f4f6;
   --dp-card: #ffffff;
@@ -1289,7 +1259,6 @@ body {
   transition: opacity 0.2s;
 }
 
-/* --- HERO SECTION --- */
 .detail-hero {
   position: relative;
   border-radius: 24px;
@@ -1350,7 +1319,6 @@ body {
   width: fit-content;
 }
 
-/* --- GRID LAYOUT --- */
 .detail-grid {
   display: grid;
   grid-template-columns: 1fr 380px;
@@ -1377,7 +1345,6 @@ body {
   color: var(--dp-text-muted);
 }
 
-/* --- SIDEBAR & CONTACT --- */
 .contact-card-modern h3 {
   font-size: 1.25rem;
   margin-bottom: 2rem;
@@ -1440,7 +1407,6 @@ body {
   filter: brightness(1.1);
 }
 
-/* --- RESPONSIVE --- */
 @media (max-width: 900px) {
   .detail-grid {
     grid-template-columns: 1fr;
@@ -1453,9 +1419,8 @@ body {
   }
 }
 
-/* Footer Modern Styling */
 .footer-modern {
-  background-color: var(--dp-card, #ffffff); /* Fallback to white if variables aren't loaded */
+  background-color: var(--dp-card, #ffffff);
   color: var(--dp-text-muted, #4b5563);
   border-top: 1px solid var(--dp-border, #e5e7eb);
   padding: 3rem 1rem;
@@ -1465,8 +1430,8 @@ body {
 }
 
 .dark-mode .footer-modern {
-  background-color: #111827; /* Dark mode background */
-  color: #9ca3af;            /* Dark mode text */
+  background-color: #111827;
+  color: #9ca3af;
   border-top: 1px solid #1f2937;
 }
 
@@ -1479,13 +1444,12 @@ body {
   opacity: 0.6;
 }
 
-/* --- EVENTS DIRECTORY & CARDS --- */
 .events-directory-container {
   padding: 2rem 1rem;
   max-width: 1200px;
   margin: 0 auto;
-  background-color: var(--dp-bg); /* Use global background var */
-  color: var(--dp-text); /* Use global text var */
+  background-color: var(--dp-bg);
+  color: var(--dp-text);
   transition: all 0.3s ease;
 }
 
@@ -1516,7 +1480,7 @@ body {
 }
 
 .category-filter-btn {
-  background-color: var(--dp-card); /* Card background for buttons */
+  background-color: var(--dp-card);
   border: 1px solid var(--dp-border);
   color: var(--dp-text-main);
   padding: 0.5rem 1.2rem;
@@ -1562,7 +1526,6 @@ body {
   gap: 2rem;
 }
 
-/* Event Card Styling */
 .event-card {
   display: flex;
   flex-direction: column;
@@ -1570,11 +1533,11 @@ body {
   border: 1px solid var(--dp-border);
   border-radius: 16px;
   padding: 1.5rem;
-  text-decoration: none; /* Remove underline */
-  color: inherit; /* Inherit text color */
+  text-decoration: none;
+  color: inherit;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   position: relative;
-  overflow: hidden; /* For future date badge maybe */
+  overflow: hidden;
 }
 
 .event-card:hover {
@@ -1626,7 +1589,7 @@ body {
   position: absolute;
   bottom: 1.5rem;
   right: 1.5rem;
-  background-color: #ef4444; /* Red for archived */
+  background-color: #ef4444;
   color: white;
   padding: 0.25rem 0.75rem;
   border-radius: 8px;
@@ -1634,7 +1597,6 @@ body {
   font-weight: 700;
 }
 
-/* Archived Events Section */
 .events-section.archived .event-card {
   opacity: 0.7;
   filter: grayscale(80%);
@@ -1655,15 +1617,12 @@ body {
   border-radius: 16px;
 }
 
-/* Event Detail Page - Reuses existing .detail-page-root, .detail-max-width, etc. */
-/* Just adding specific elements not covered by resource detail page */
 .event-additional-details {
   margin-top: 2rem;
 }
 
-/* Ensure global nav-link for events is styled */
 .nav-links .events-link {
-    color: var(--dp-text); /* Ensure it matches other nav links */
+    color: var(--dp-text); 
     text-decoration: none;
     padding: 8px 15px;
     transition: color 0.3s ease;
@@ -1673,31 +1632,26 @@ body {
     color: var(--dp-accent);
 }
 
-/* --- Navbar Fix --- */
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 20px; /* Adjust spacing between links */
+  gap: 20px;
 }
 
-/* Ensure ALL nav links look the same */
 .nav-links a {
   text-decoration: none;
-  color: #ffffff; /* Or your theme variable */
+  color: #ffffff;
   font-weight: 500;
   transition: color 0.3s ease;
 }
 
-/* Specifically target the events link if it's acting up */
 .events-link {
   display: inline-block;
-  /* Make sure it doesn't have a hidden width or height */
 }
 
 .nav-links a:hover {
   color: var(--dp-accent, #3b82f6);
 }
-/* Event Search inside Hero */
 .event-search-container {
     margin-top: 30px;
     width: 100%;
@@ -1739,7 +1693,6 @@ body {
     color: #333;
 }
 
-/* Archived Layout */
 .archived-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -1754,20 +1707,18 @@ body {
     border: 1px dashed var(--border-color);
 }
 
-/* Reduce spacing between nav links */
 .nav-links {
   display: flex;
-  gap: 1px; /* Decreased from likely 20px+ */
+  gap: 1px; 
   align-items: center;
 }
 
 .nav-links a {
-  font-size: 0.9rem; /* Slightly smaller text */
+  font-size: 0.9rem;
   padding: 5px 8px;
-  white-space: nowrap; /* Prevents text from wrapping to a second line */
+  white-space: nowrap;
 }
 
-/* Compact the Auth/Buttons section */
 .nav-auth {
   display: flex;
   gap: 8px;
@@ -1779,33 +1730,300 @@ body {
   font-size: 0.85rem !important;
   height: auto;
 }
-
-/* Shrink the logo slightly if needed */
 .nav-logo {
   font-size: 1.2rem;
   margin-right: 15px;
 }
-/* Invert the calendar icon color in dark mode */
 .dark-mode input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     filter: invert(1);
     cursor: pointer;
 }
 
-/* Optional: Make the date input text look sharper in dark mode */
 .dark-mode input[type="datetime-local"] {
-    color-scheme: dark; /* This tells the browser to use the built-in dark picker UI */
-}/* This targets the calendar icon specifically in Dark Mode */
+    color-scheme: dark;
+}
 .dark-mode input[type="datetime-local"]::-webkit-calendar-picker-indicator {
-    /* brightness(0) makes it black, then invert(1) makes it pure white */
     filter: brightness(0) invert(1); 
     cursor: pointer;
     margin-right: 5px;
 }
 
-/* This forces the browser to use its built-in dark UI for the picker */
 .dark-mode input[type="datetime-local"] {
     color-scheme: dark;
-    background-color: #0f172a; /* Matching your dark theme background */
+    background-color: #0f172a;
     color: white;
     border: 1px solid #334155;
+}
+
+.back-to-top {
+  position: fixed;
+  bottom: 30px;   
+  right: 30px;    
+  width: 50px;
+  height: 50px;
+  background: rgba(37, 99, 235, 0.8);
+  backdrop-filter: blur(8px);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.back-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.back-to-top:hover {
+  transform: translateY(-5px);
+  background: rgba(37, 99, 235, 1);
+}
+:root {
+  --nav-h: 80px;
+  --blue: #2563eb;
+  --blue-hover: #1d4ed8;
+  --red: #ef4444;
+  --red-hover: #dc2626;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.light-mode {
+  --nav-bg: #ffffff;
+  --text: #000000;
+  --border: rgba(0, 0, 0, 0.1);
+  --logo-cypress: #000000;
+}
+
+.dark-mode {
+  --nav-bg: #131729;
+  --text: #ffffff;
+  --border: rgba(255, 255, 255, 0.1);
+  --logo-cypress: #ffffff;
+}
+
+.light-mode .nav-logo,
+.light-mode .nav-desktop-links a,
+.light-mode .gear-icon-btn,
+.light-mode .mobile-drawer a {
+  color: #000000 !important;
+}
+
+.navbar {
+  height: var(--nav-h);
+  background: var(--nav-bg);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  transition: var(--transition);
+}
+
+.nav-container {
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1.5rem;
+}
+
+.nav-logo { 
+  font-size: 1.6rem; 
+  font-weight: 800; 
+  text-decoration: none; 
+  color: var(--logo-cypress) !important; 
+  transition: var(--transition);
+}
+.nav-logo span { color: var(--blue); }
+.nav-logo:hover { transform: scale(1.05); }
+
+.nav-desktop-links { display: flex; gap: 1.8rem; }
+.nav-desktop-links a { 
+  text-decoration: none; 
+  font-weight: 700; 
+  color: var(--text); 
+  font-size: 0.95rem; 
+  position: relative;
+  padding: 5px 0;
+  transition: var(--transition);
+}
+
+.nav-desktop-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2.5px;
+  background: var(--blue);
+  transition: width 0.3s ease;
+  border-radius: 2px;
+}
+
+.nav-desktop-links a:hover::after {
+  width: 100%;
+}
+
+.nav-desktop-links a.active {
+  color: var(--blue) !important;
+}
+
+.nav-desktop-links a.active::after {
+  width: 100%;
+}
+
+.nav-actions { display: flex; align-items: center; gap: 1.2rem; }
+
+.login-btn, .logout-btn { 
+  padding: 9px 20px; 
+  border-radius: 8px; 
+  font-weight: 700; 
+  cursor: pointer; 
+  transition: var(--transition);
+  border: none;
+  font-size: 0.9rem;
+}
+
+.login-btn { background: var(--blue); color: white !important; text-decoration: none; }
+.login-btn:hover { background: var(--blue-hover); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); }
+
+.logout-btn { background: var(--red); color: white !important; }
+.logout-btn:hover { background: var(--red-hover); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); }
+
+.user-badge { 
+  background: rgba(37, 99, 235, 0.12); 
+  color: var(--blue); 
+  font-size: 0.75rem; 
+  font-weight: 800; 
+  padding: 4px 10px; 
+  border-radius: 6px; 
+  text-transform: uppercase;
+}
+
+.settings-shell { position: relative; display: flex; }
+.gear-icon-btn { 
+  background: transparent; 
+  border: none; 
+  color: var(--text); 
+  cursor: pointer; 
+  padding: 8px;
+  display: flex;
+  transition: transform 0.5s ease;
+  border-radius: 50%;
+}
+.gear-icon-btn:hover { background: rgba(128, 128, 128, 0.1); }
+.gear-icon-btn.rotating { transform: rotate(90deg); }
+
+.gear-popover {
+  position: absolute;
+  top: 55px;
+  right: 0;
+  background: var(--nav-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  display: flex;
+  padding: 12px;
+  gap: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  align-items: center;
+  animation: popIn 0.2s ease-out;
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: translateY(-10px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.gear-link { 
+  background: transparent; 
+  border: none; 
+  color: var(--text); 
+  font-weight: 700; 
+  cursor: pointer; 
+  display: flex; 
+  align-items: center; 
+  gap: 8px; 
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+.gear-link:hover { color: var(--blue) !important; }
+.gear-divider { width: 1px; height: 20px; background: var(--border); }
+
+.hamb-menu-btn { display: none; background: transparent; border: none; color: var(--text); cursor: pointer; padding: 5px; }
+
+.mobile-drawer {
+  position: fixed;
+  top: var(--nav-h);
+  left: 0;
+  width: 100%;
+  background: var(--nav-bg);
+  display: none;
+  flex-direction: column;
+  padding: 1.5rem 2rem;
+  gap: 1rem;
+  border-bottom: 1px solid var(--border);
+  z-index: 9998;
+  transform: translateY(-100%);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-drawer.open { transform: translateY(0); }
+
+.mobile-drawer a { 
+  text-decoration: none; 
+  font-weight: 700; 
+  font-size: 1.3rem; 
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  transition: padding-left 0.3s ease;
+}
+.mobile-drawer a:hover { padding-left: 10px; color: var(--blue) !important; }
+.mobile-drawer a.active { color: var(--blue) !important; border-left: 4px solid var(--blue); padding-left: 15px; }
+
+@media (max-width: 950px) {
+  .nav-desktop-links { display: none; }
+  .hamb-menu-btn { display: flex; align-items: center; }
+  .mobile-drawer { display: flex; }
+}
+
+.hamb-box { width: 24px; height: 18px; display: flex; flex-direction: column; justify-content: space-between; }
+.hamb-box span { 
+  width: 100%; 
+  height: 2.5px; 
+  background: var(--text); 
+  transition: var(--transition); 
+  border-radius: 2px;
+}
+.hamb-box.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.hamb-box.active span:nth-child(2) { opacity: 0; transform: translateX(-20px); }
+.hamb-box.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+.mobile-drawer a,
+.mobile-drawer a:visited {
+  color: var(--text) !important;
+  text-decoration: none;
+}
+
+.mobile-drawer a:hover,
+.mobile-drawer a.active {
+  color: var(--blue) !important;
+}
+
+.gear-popover a,
+.gear-popover a:visited,
+.gear-link,
+.gear-link:visited {
+  color: var(--text) !important;
+  text-decoration: none;
 }

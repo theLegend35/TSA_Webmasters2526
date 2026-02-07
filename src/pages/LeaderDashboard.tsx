@@ -32,10 +32,10 @@ const LeaderDashboard: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   
   const [formData, setFormData] = useState({ 
-    name: '', category: '', location: '', eventDate: '', description: '', url: '', phone: '' 
+    name: '', category: '', location: '', eventDate: '', description: '', url: '', phone: '', imageUrl: '' 
   });
 
-  const resourceCats = ['Food Bank', 'Healthcare', 'Education', 'Financial Aid', 'Housing', 'Other'];
+  const resourceCats = ['Food', 'Health', 'Education', 'Financial Aid', 'Housing', 'Other'];
   const eventCats = ['Recreational', 'Volunteering', 'Town Hall', 'Workshop', 'Festival', 'Other'];
 
   useEffect(() => {
@@ -79,11 +79,9 @@ const LeaderDashboard: React.FC = () => {
         await deleteDoc(doc(db, "starred", starDocId));
       } else {
         await setDoc(doc(db, "starred", starDocId), {
+          ...resource,        
           userId: user.uid,
           resourceId: resource.id,
-          name: resource.name,
-          category: resource.category,
-          location: resource.location || '',
           starredAt: serverTimestamp()
         });
       }
@@ -132,7 +130,7 @@ const LeaderDashboard: React.FC = () => {
         approvedBy: user?.email
       });
       setIsModalOpen(false);
-      setFormData({ name: '', category: '', location: '', eventDate: '', description: '', url: '', phone: '' });
+      setFormData({ name: '', category: '', location: '', eventDate: '', description: '', url: '', phone: '', imageUrl: '' });
     } catch (err) { alert("Error adding item."); }
   };
 
@@ -173,7 +171,7 @@ const LeaderDashboard: React.FC = () => {
       {starredResources.length > 0 && (
         <section style={{ marginTop: '40px', padding: '20px', background: 'rgba(250, 204, 21, 0.05)', borderRadius: '15px', border: '1px solid #facc15' }}>
           <h2 style={{ ...sectionHeader, color: '#ca8a04', display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <span>★</span> Your Starred Resources
+            <span>★</span> Your Starred Resources (Featured on Homepage)
           </h2>
           <Table 
             data={starredResources.map(s => ({ ...s, id: s.resourceId }))} 
@@ -216,11 +214,17 @@ const LeaderDashboard: React.FC = () => {
               <input placeholder="Name" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} style={inputStyle} required />
               <select value={formData.category} onChange={e => setFormData({...formData, category: e.target.value})} style={inputStyle} required>
                 <option value="">Select Category</option>
-                {(activeTab === 'resources' ? resourceCats : eventCats).map(c => <option key={c} value={c.toLowerCase()}>{c}</option>)}
+                {(activeTab === 'resources' ? resourceCats : eventCats).map(c => <option key={c} value={c}>{c}</option>)}
               </select>
               <input placeholder="Location" value={formData.location} onChange={e => setFormData({...formData, location: e.target.value})} style={inputStyle} required />
-              <input placeholder="URL" value={formData.url} onChange={e => setFormData({...formData, url: e.target.value})} style={inputStyle} />
+              
+              {/* Added Image and Phone fields to the modal */}
+              <input placeholder="Phone Number" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} style={inputStyle} />
+              <input placeholder="Image URL (Unsplash Link preferred)" value={formData.imageUrl} onChange={e => setFormData({...formData, imageUrl: e.target.value})} style={inputStyle} />
+              
+              <input placeholder="Website URL" value={formData.url} onChange={e => setFormData({...formData, url: e.target.value})} style={inputStyle} />
               <textarea placeholder="Description" style={{ ...inputStyle, height: '80px' }} value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} required />
+              
               <div style={{ display: 'flex', gap: '10px' }}>
                 <button type="button" onClick={() => setIsModalOpen(false)} style={cancelBtn}>Cancel</button>
                 <button type="submit" style={approveBtn}>Publish Live</button>
@@ -291,7 +295,7 @@ const tableSearchStyle = { width: '100%', padding: '12px', borderRadius: '10px',
 const tableWrapper = { background: 'var(--card-bg)', borderRadius: '12px', overflow: 'hidden', border: '1px solid var(--border-color)' };
 const thStyle = { padding: '15px', borderBottom: '1px solid var(--border-color)', fontSize: '0.8rem', textTransform: 'uppercase' as const };
 const tdStyle = { padding: '15px', color: 'var(--text-main)' };
-const categoryBadge = { background: 'var(--primary)', color: 'white', padding: '4px 10px', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 'bold' as const, textTransform: 'capitalize' as const };
+const categoryBadge = { background: 'var(--primary)', color: 'white', padding: '4px 10px', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 'bold' as const };
 const approveBtn = { background: '#10b981', color: 'white', border: 'none', padding: '8px 12px', borderRadius: '6px', cursor: 'pointer', fontWeight: '600' as const };
 const denyBtn = { background: '#ef4444', color: 'white', border: 'none', padding: '8px 12px', borderRadius: '6px', cursor: 'pointer', fontWeight: '600' as const };
 const cancelBtn = { background: 'transparent', color: 'var(--text-main)', border: '1px solid var(--border-color)', padding: '8px 12px', borderRadius: '6px', cursor: 'pointer' };
