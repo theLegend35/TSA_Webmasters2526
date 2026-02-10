@@ -1,6 +1,17 @@
-import React from 'react';
+import React, { useRef, useLayoutEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import './ReferencePage.css';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const ReferencePage: React.FC = () => {
+  const { theme } = useAuth();
+  const pageRef = useRef<HTMLDivElement>(null);
+
+  const isDark = theme === 'dark';
+
   const sources = [
     { type: "Stock Image", source: "Unsplash", url: "https://images.unsplash.com/photo-1521587760476-6c12a4b040da" },
     { type: "Stock Image", source: "Unsplash", url: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73" },
@@ -49,169 +60,211 @@ const ReferencePage: React.FC = () => {
     { type: "Photography", source: "HDNUX / Chronicle", url: "https://s.hdnux.com/photos/01/23/41/37/21895159/4/1200x0.jpg" },
   ];
 
+  // GSAP entrance animations
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+      // Hero entrance
+      tl.fromTo(
+        ".ref__hero-tag",
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.7 }
+      )
+        .fromTo(
+          ".ref__hero-title",
+          { opacity: 0, y: 30 },
+          { opacity: 1, y: 0, duration: 0.8 },
+          "-=0.5"
+        )
+        .fromTo(
+          ".ref__hero-sub",
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: 0.6 },
+          "-=0.5"
+        );
+
+      // Sections with ScrollTrigger
+      gsap.utils.toArray<HTMLElement>(".ref__section").forEach((section, i) => {
+        gsap.fromTo(
+          section,
+          { opacity: 0, y: 50 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            delay: i * 0.1,
+            scrollTrigger: {
+              trigger: section,
+              start: "top 85%",
+              toggleActions: "play none none none"
+            }
+          }
+        );
+      });
+
+      // PDF cards
+      gsap.fromTo(
+        ".ref__pdf-card",
+        { opacity: 0, y: 40, scale: 0.96 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          stagger: 0.15,
+          duration: 0.7,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: ".ref__pdf-grid",
+            start: "top 85%",
+            toggleActions: "play none none none"
+          }
+        }
+      );
+
+      // Table rows stagger
+      gsap.fromTo(
+        ".ref__table tbody tr",
+        { opacity: 0, x: -20 },
+        {
+          opacity: 1,
+          x: 0,
+          stagger: 0.02,
+          duration: 0.4,
+          scrollTrigger: {
+            trigger: ".ref__table",
+            start: "top 80%",
+            toggleActions: "play none none none"
+          }
+        }
+      );
+    }, pageRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <div className="content-wrapper" style={{ padding: '20px', maxWidth: '1000px', margin: '0 auto' }}>
-      
-      <div className="animate-fade-up" style={{ marginBottom: '40px', borderBottom: '1px solid var(--border-color)', paddingBottom: '20px' }}>
-        <h1 style={{ color: 'var(--text-main)', fontSize: '2.5rem', marginBottom: '10px' }}>Reference & Compliance</h1>
-        <p style={{ color: 'var(--text-muted)' }}>Documentation of sources, tools, and copyright compliance for TSA.</p>
-      </div>
-      
-      <section className="animate-pop delay-1" style={refSection}>
-        <h2 style={sectionHeader}>Affirmation Statement</h2>
-        <div style={affirmationBox}>
-          <p style={{ color: 'var(--text-main)', margin: 0, lineHeight: '1.6' }}>
-            <strong style={{ color: '#3b82f6' }}>Statement:</strong> The React framework was used to develop this website. 
-            We affirm that the theme, CSS, and component structure used on this framework were built entirely by the team 
-            and no pre-built templates or themes were used. All logic for the Directory and Authentication systems was coded by the team using Firebase SDKs.
+    <div ref={pageRef} className={`ref ${isDark ? 'ref--dark' : ''}`}>
+      <div className="ref__wrapper">
+        {/* Hero */}
+        <header className="ref__hero">
+          <span className="ref__hero-tag">TSA Compliance</span>
+          <h1 className="ref__hero-title">
+            Reference & <em>Documentation</em>
+          </h1>
+          <p className="ref__hero-sub">
+            Complete documentation of sources, tools, and copyright compliance for the TSA Webmaster competition.
           </p>
-        </div>
-      </section>
+        </header>
 
-      <section className="animate-pop delay-2" style={refSection}>
-        <h2 style={sectionHeader}>Required Documentation</h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '30px' }}>
-          
-        <div style={pdfContainer}>
-          <p style={pdfLabel}>Project Work Log</p>
-          <iframe 
-            src="/pdfs/workLog.pdf" 
-            style={pdfIframe} 
-            title="Work Log"
-          />
-          <a href="/pdfs/workLog.pdf" target="_blank" rel="noreferrer" style={docLinkSmall}>Open Full PDF</a>
-        </div>
+        {/* Affirmation Section */}
+        <section className="ref__section">
+          <div className="ref__section-header">
+            <h2 className="ref__section-title">Affirmation Statement</h2>
+            <div className="ref__section-line"></div>
+          </div>
+          <div className="ref__affirmation">
+            <span className="ref__affirmation-label">Official Statement</span>
+            <p className="ref__affirmation-text">
+              The React framework was used to develop this website. We affirm that the theme, CSS, and component structure
+              used on this framework were built entirely by the team and no pre-built templates or themes were used.
+              All logic for the Directory and Authentication systems was coded by the team using Firebase SDKs.
+            </p>
+          </div>
+        </section>
 
-        <div style={pdfContainer}>
-          <p style={pdfLabel}>Student Copyright Checklist</p>
-          <iframe 
-            src="/pdfs/copyright.pdf" 
-            style={pdfIframe} 
-            title="Copyright Checklist"
-          />
-          <a href="/pdfs/copyright.pdf" target="_blank" rel="noreferrer" style={docLinkSmall}>Open Full PDF</a>
-        </div>
-        </div>
-      </section>
+        {/* PDF Documents Section */}
+        <section className="ref__section">
+          <div className="ref__section-header">
+            <h2 className="ref__section-title">Required Documentation</h2>
+            <div className="ref__section-line"></div>
+          </div>
+          <div className="ref__pdf-grid">
+            <div className="ref__pdf-card">
+              <h3 className="ref__pdf-label">Project Work Log</h3>
+              <iframe
+                src="/pdfs/workLog.pdf"
+                className="ref__pdf-iframe"
+                title="Work Log"
+              />
+              <a href="/pdfs/workLog.pdf" target="_blank" rel="noreferrer" className="ref__pdf-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                  <polyline points="15 3 21 3 21 9" />
+                  <line x1="10" y1="14" x2="21" y2="3" />
+                </svg>
+                Open Full PDF
+              </a>
+            </div>
 
-      <section className="animate-fade-up delay-3" style={refSection}>
-        <h2 style={sectionHeader}>Sources of Information & Assets</h2>
-        <div style={{ overflowX: 'auto', border: '1px solid var(--border-color)', borderRadius: '12px' }}>
-          <table style={refTable}>
-            <thead>
-              <tr style={{ background: 'var(--bg-color)', borderBottom: '2px solid var(--border-color)' }}>
-                <th style={headerCell}>Asset Type</th>
-                <th style={headerCell}>Source</th>
-                <th style={headerCell}>URL / Reference</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr style={rowStyle}>
-                <td style={cell}>Data / Statistics</td>
-                <td style={cell}>Cypress Assistance Ministries</td>
-                <td style={cell}>Resource directory details and mission data.</td>
-              </tr>
-              <tr style={rowStyle}>
-                <td style={cell}>Framework / Backend</td>
-                <td style={cell}>React / Firebase / Netlify</td>
-                <td style={cell}>Core application logic, database storage, and cloud deployment.</td>
-              </tr>
+            <div className="ref__pdf-card">
+              <h3 className="ref__pdf-label">Student Copyright Checklist</h3>
+              <iframe
+                src="/pdfs/copyright.pdf"
+                className="ref__pdf-iframe"
+                title="Copyright Checklist"
+              />
+              <a href="/pdfs/copyright.pdf" target="_blank" rel="noreferrer" className="ref__pdf-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                  <polyline points="15 3 21 3 21 9" />
+                  <line x1="10" y1="14" x2="21" y2="3" />
+                </svg>
+                Open Full PDF
+              </a>
+            </div>
+          </div>
+        </section>
 
-              {sources.map((item, index) => (
-                <tr key={index} style={rowStyle}>
-                  <td style={cell}>{item.type}</td>
-                  <td style={cell}>{item.source}</td>
-                  <td style={cell}>
-                    <a href={item.url} target="_blank" rel="noopener noreferrer" style={linkStyle}>
-                      {item.url.substring(0, 50)}...
-                    </a>
-                  </td>
+        {/* Sources Table Section */}
+        <section className="ref__section">
+          <div className="ref__section-header">
+            <h2 className="ref__section-title">Sources of Information & Assets</h2>
+            <div className="ref__section-line"></div>
+          </div>
+          <div className="ref__table-wrap">
+            <table className="ref__table">
+              <thead>
+                <tr>
+                  <th>Asset Type</th>
+                  <th>Source</th>
+                  <th>URL / Reference</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Data / Statistics</td>
+                  <td>Cypress Assistance Ministries</td>
+                  <td>Resource directory details and mission data.</td>
+                </tr>
+                <tr>
+                  <td>Framework / Backend</td>
+                  <td>React / Firebase / Netlify</td>
+                  <td>Core application logic, database storage, and cloud deployment.</td>
+                </tr>
+                {sources.map((item, index) => (
+                  <tr key={index}>
+                    <td>{item.type}</td>
+                    <td>{item.source}</td>
+                    <td>
+                      <a
+                        href={item.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="ref__table-link"
+                      >
+                        {item.url.length > 55 ? `${item.url.substring(0, 55)}...` : item.url}
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
     </div>
   );
-};
-
-const refSection = { marginBottom: '50px' };
-
-const sectionHeader = { 
-  color: 'var(--text-main)', 
-  borderLeft: '5px solid #3b82f6', 
-  paddingLeft: '15px', 
-  marginBottom: '20px' 
-};
-
-const affirmationBox = { 
-  padding: '25px', 
-  border: '1px solid #3b82f6', 
-  borderRadius: '12px', 
-  background: 'rgba(59, 130, 246, 0.05)',
-};
-
-const pdfContainer = {
-  background: 'var(--card-bg)',
-  border: '1px solid var(--border-color)',
-  borderRadius: '12px',
-  padding: '15px',
-  display: 'flex',
-  flexDirection: 'column' as const,
-  gap: '10px'
-};
-
-const pdfLabel = {
-  color: 'var(--text-main)',
-  fontWeight: 'bold',
-  fontSize: '0.9rem',
-  margin: '0'
-};
-
-const pdfIframe = {
-  width: '100%',
-  height: '450px',
-  border: 'none',
-  borderRadius: '6px',
-  background: '#fff'
-};
-
-const docLinkSmall = {
-  color: '#3b82f6',
-  fontSize: '0.8rem',
-  textDecoration: 'none',
-  textAlign: 'right' as const
-};
-
-const refTable = { 
-  width: '100%', 
-  borderCollapse: 'collapse' as const,
-  background: 'var(--card-bg)',
-  fontSize: '0.9rem'
-};
-
-const headerCell = {
-  textAlign: 'left' as const,
-  padding: '15px',
-  color: 'var(--text-muted)',
-  fontWeight: 'bold',
-  textTransform: 'uppercase' as const,
-  fontSize: '0.75rem'
-};
-
-const rowStyle = { borderBottom: '1px solid var(--border-color)' };
-
-const cell = { 
-  padding: '12px 15px',
-  color: 'var(--text-main)',
-  verticalAlign: 'middle'
-};
-
-const linkStyle = {
-  color: '#3b82f6',
-  textDecoration: 'none',
-  fontFamily: 'monospace'
 };
 
 export default ReferencePage;

@@ -1,0 +1,500 @@
+/* ═══════════════════════════════════════
+   ABOUT PAGE — LUXURY EDITORIAL
+   ═══════════════════════════════════════ */
+
+/* ── Design Tokens ────────────────────── */
+.abt {
+  --abt-gold: #b5975a;
+  --abt-gold-light: #d4b978;
+  --abt-ink: #0d0d0d;
+  --abt-surface: #ffffff;
+  --abt-bg: #faf8f5;
+  --abt-muted: #6b6b6b;
+  --abt-border: rgba(0, 0, 0, 0.06);
+  --abt-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --abt-shadow-md: 0 8px 30px rgba(0, 0, 0, 0.08);
+  --abt-shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.12);
+  --abt-radius: 16px;
+  --abt-radius-lg: 24px;
+  --abt-transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Dark Mode ────────────────────────── */
+[data-theme="dark"] .abt,
+.dark .abt,
+.abt--dark {
+  --abt-ink: #f5f5f5;
+  --abt-surface: #1a1a1a;
+  --abt-bg: #0d0d0d;
+  --abt-muted: #a0a0a0;
+  --abt-border: rgba(255, 255, 255, 0.08);
+  --abt-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --abt-shadow-md: 0 8px 30px rgba(0, 0, 0, 0.4);
+  --abt-shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+/* ── Base Layout ──────────────────────── */
+.abt {
+  min-height: 100vh;
+  background: var(--abt-bg);
+  color: var(--abt-ink);
+  font-family:
+    "Sora",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  overflow-x: hidden;
+}
+
+.abt__wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 60px;
+}
+
+/* ═══════════════════════════════════════
+   HERO SECTION
+   ═══════════════════════════════════════ */
+.abt__hero {
+  position: relative;
+  height: 560px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.abt__hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url("https://townelaketexas.com/sites/default/files/gallery/bry6046.jpg");
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.8s ease;
+}
+
+.abt__hero:hover .abt__hero-bg {
+  transform: scale(1.03);
+}
+
+.abt__hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(13, 13, 13, 0.5) 0%,
+    rgba(13, 13, 13, 0.85) 100%
+  );
+}
+
+.abt__hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 48px;
+  max-width: 800px;
+}
+
+.abt__hero-glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 32px;
+  padding: 48px 56px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+}
+
+.abt__hero-badge {
+  display: inline-block;
+  padding: 8px 18px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--abt-gold);
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.abt__hero-title {
+  font-family: "Fraunces", serif;
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  font-weight: 400;
+  line-height: 1.15;
+  color: #fff;
+  margin: 0 0 16px 0;
+}
+
+.abt__hero-title em {
+  font-style: italic;
+  background: linear-gradient(90deg, var(--abt-gold), var(--abt-gold-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.abt__hero-sub {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ═══════════════════════════════════════
+   MISSION SECTION
+   ═══════════════════════════════════════ */
+.abt__mission {
+  padding: 100px 0;
+}
+
+.abt__section-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 48px;
+}
+
+.abt__section-tag {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--abt-gold);
+}
+
+.abt__section-line {
+  flex: 1;
+  height: 1px;
+  background: var(--abt-border);
+}
+
+.abt__mission-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+
+.abt__mission-text {
+  font-size: 1.25rem;
+  line-height: 1.85;
+  color: var(--abt-muted);
+  margin: 0;
+}
+
+.abt__values {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.abt__value {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 24px;
+  background: var(--abt-surface);
+  border: 1px solid var(--abt-border);
+  border-radius: var(--abt-radius-lg);
+  transition:
+    transform var(--abt-transition),
+    border-color var(--abt-transition),
+    box-shadow var(--abt-transition);
+}
+
+.abt__value:hover {
+  transform: translateX(8px);
+  border-color: var(--abt-gold);
+  box-shadow: var(--abt-shadow-md);
+}
+
+.abt__value-icon {
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--abt-bg);
+  border-radius: 14px;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+  box-shadow: var(--abt-shadow-sm);
+}
+
+.abt__value-content h4 {
+  font-family: "Fraunces", serif;
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin: 0 0 4px 0;
+  color: var(--abt-ink);
+}
+
+.abt__value-content p {
+  font-size: 0.9rem;
+  color: var(--abt-muted);
+  margin: 0;
+}
+
+/* ═══════════════════════════════════════
+   QUOTE SECTION
+   ═══════════════════════════════════════ */
+.abt__quote {
+  padding: 80px 0;
+}
+
+.abt__quote-card {
+  position: relative;
+  background: var(--abt-surface);
+  border: 1px solid var(--abt-border);
+  border-radius: 40px;
+  padding: 80px 60px;
+  text-align: center;
+  box-shadow: var(--abt-shadow-sm);
+  overflow: hidden;
+}
+
+.abt__quote-mark {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: "Fraunces", serif;
+  font-size: 10rem;
+  line-height: 1;
+  color: var(--abt-gold);
+  opacity: 0.08;
+  pointer-events: none;
+}
+
+.abt__quote-text {
+  position: relative;
+  z-index: 1;
+  font-family: "Fraunces", serif;
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--abt-ink);
+  max-width: 800px;
+  margin: 0 auto 32px;
+}
+
+.abt__quote-footer {
+  position: relative;
+  z-index: 1;
+}
+
+.abt__quote-author {
+  font-family: "Fraunces", serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--abt-ink);
+  margin: 0 0 4px 0;
+}
+
+.abt__quote-role {
+  font-size: 0.85rem;
+  color: var(--abt-gold);
+  letter-spacing: 0.1em;
+}
+
+/* ═══════════════════════════════════════
+   GALLERY SECTION
+   ═══════════════════════════════════════ */
+.abt__gallery {
+  padding: 60px 0 120px;
+}
+
+.abt__gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.abt__landmark {
+  position: relative;
+  background: var(--abt-surface);
+  border: 1px solid var(--abt-border);
+  border-radius: var(--abt-radius-lg);
+  overflow: hidden;
+  transition:
+    transform var(--abt-transition),
+    box-shadow var(--abt-transition);
+}
+
+.abt__landmark:hover {
+  transform: translateY(-12px);
+  box-shadow: var(--abt-shadow-lg);
+}
+
+.abt__landmark-img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.abt__landmark:hover .abt__landmark-img {
+  transform: scale(1.06);
+}
+
+.abt__landmark-info {
+  padding: 24px;
+  text-align: center;
+}
+
+.abt__landmark-name {
+  font-family: "Fraunces", serif;
+  font-size: 1.15rem;
+  font-weight: 500;
+  margin: 0;
+  color: var(--abt-ink);
+}
+
+/* ═══════════════════════════════════════
+   BACK TO TOP
+   ═══════════════════════════════════════ */
+.abt__back-top {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--abt-surface);
+  border: 1px solid var(--abt-border);
+  border-radius: 50%;
+  color: var(--abt-ink);
+  cursor: pointer;
+  box-shadow: var(--abt-shadow-md);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition:
+    opacity 0.4s ease,
+    visibility 0.4s ease,
+    transform 0.4s ease,
+    background var(--abt-transition);
+  z-index: 100;
+}
+
+.abt__back-top--visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.abt__back-top:hover {
+  background: var(--abt-gold);
+  border-color: var(--abt-gold);
+  color: #fff;
+}
+
+.abt__back-top svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════ */
+@media (max-width: 1100px) {
+  .abt__wrapper {
+    padding: 0 40px;
+  }
+
+  .abt__mission-grid {
+    gap: 40px;
+  }
+}
+
+@media (max-width: 900px) {
+  .abt__hero {
+    height: 480px;
+  }
+
+  .abt__hero-glass {
+    padding: 36px 32px;
+    margin: 0 20px;
+  }
+
+  .abt__mission-grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .abt__gallery-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .abt__wrapper {
+    padding: 0 24px;
+  }
+
+  .abt__hero {
+    height: 420px;
+  }
+
+  .abt__hero-title {
+    font-size: 1.8rem;
+  }
+
+  .abt__mission {
+    padding: 70px 0;
+  }
+
+  .abt__mission-text {
+    font-size: 1.1rem;
+  }
+
+  .abt__quote-card {
+    padding: 60px 32px;
+    border-radius: 28px;
+  }
+
+  .abt__quote-text {
+    font-size: 1.3rem;
+  }
+
+  .abt__gallery-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .abt__landmark-img {
+    height: 200px;
+  }
+
+  .abt__back-top {
+    bottom: 24px;
+    right: 24px;
+    width: 48px;
+    height: 48px;
+  }
+}
+
+@media (max-width: 480px) {
+  .abt__hero {
+    height: 380px;
+  }
+
+  .abt__hero-glass {
+    padding: 28px 24px;
+  }
+
+  .abt__value {
+    padding: 18px;
+  }
+
+  .abt__value-icon {
+    width: 44px;
+    height: 44px;
+    font-size: 1.2rem;
+  }
+}

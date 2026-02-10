@@ -1,0 +1,468 @@
+/* ═══════════════════════════════════════
+   RESOURCE DETAIL PAGE — LUXURY EDITORIAL
+   ═══════════════════════════════════════ */
+
+/* ── Design Tokens ────────────────────── */
+.rdp {
+  --rdp-gold: #b5975a;
+  --rdp-gold-light: #d4b978;
+  --rdp-ink: #0d0d0d;
+  --rdp-surface: #ffffff;
+  --rdp-bg: #faf8f5;
+  --rdp-muted: #6b6b6b;
+  --rdp-border: rgba(0, 0, 0, 0.08);
+  --rdp-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --rdp-shadow-md: 0 8px 30px rgba(0, 0, 0, 0.08);
+  --rdp-radius: 16px;
+  --rdp-transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Dark Mode ────────────────────────── */
+[data-theme="dark"] .rdp,
+.dark .rdp {
+  --rdp-ink: #f5f5f5;
+  --rdp-surface: #1a1a1a;
+  --rdp-bg: #0d0d0d;
+  --rdp-muted: #a0a0a0;
+  --rdp-border: rgba(255, 255, 255, 0.1);
+}
+
+/* ── Base ─────────────────────────────── */
+.rdp {
+  background: var(--rdp-surface);
+  color: var(--rdp-ink);
+  font-family:
+    "Sora",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  min-height: 100%;
+  overflow: hidden;
+}
+
+/* ═══════════════════════════════════════
+   HERO SECTION
+   ═══════════════════════════════════════ */
+.rdp__hero {
+  position: relative;
+  height: 340px;
+  overflow: hidden;
+}
+
+.rdp__hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s ease;
+}
+
+.rdp:hover .rdp__hero-img {
+  transform: scale(1.03);
+}
+
+.rdp__hero-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    var(--rdp-bg) 0%,
+    var(--rdp-surface) 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+}
+
+.rdp__hero-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 50px 48px 40px;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.85) 0%,
+    rgba(0, 0, 0, 0.4) 60%,
+    transparent 100%
+  );
+}
+
+.rdp__hero-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.rdp__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  font-family: "Sora", sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--rdp-gold);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(181, 151, 90, 0.3);
+}
+
+.rdp__badge--star {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+.rdp__badge svg {
+  width: 12px;
+  height: 12px;
+}
+
+.rdp__title {
+  font-family: "Fraunces", serif;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 400;
+  line-height: 1.15;
+  color: #fff;
+  margin: 0 0 12px 0;
+  letter-spacing: -0.01em;
+}
+
+.rdp__location {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 500;
+}
+
+.rdp__location svg {
+  width: 16px;
+  height: 16px;
+  color: var(--rdp-gold);
+}
+
+/* ═══════════════════════════════════════
+   CONTENT GRID
+   ═══════════════════════════════════════ */
+.rdp__content {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 48px;
+  padding: 48px;
+}
+
+/* ── Main Column ──────────────────────── */
+.rdp__main {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.rdp__section {
+  background: var(--rdp-bg);
+  border: 1px solid var(--rdp-border);
+  border-radius: var(--rdp-radius);
+  padding: 32px;
+}
+
+.rdp__section-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: "Sora", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--rdp-gold);
+  margin: 0 0 20px 0;
+}
+
+.rdp__section-title::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--rdp-border);
+}
+
+.rdp__description {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--rdp-muted);
+  margin: 0;
+}
+
+.rdp__hours {
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: var(--rdp-muted);
+  white-space: pre-line;
+  margin: 0;
+}
+
+/* ── Sidebar ──────────────────────────── */
+.rdp__sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.rdp__contact-card {
+  background: var(--rdp-bg);
+  border: 1px solid var(--rdp-border);
+  border-radius: var(--rdp-radius);
+  padding: 28px;
+}
+
+.rdp__contact-title {
+  font-family: "Fraunces", serif;
+  font-size: 1.15rem;
+  font-weight: 500;
+  margin: 0 0 24px 0;
+  color: var(--rdp-ink);
+}
+
+.rdp__contact-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.rdp__contact-icon {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--rdp-surface);
+  border: 1px solid var(--rdp-border);
+  border-radius: 12px;
+  color: var(--rdp-gold);
+  flex-shrink: 0;
+}
+
+.rdp__contact-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.rdp__contact-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--rdp-muted);
+  margin-bottom: 4px;
+}
+
+.rdp__contact-value {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--rdp-ink);
+  margin: 0;
+}
+
+/* ── Buttons ──────────────────────────── */
+.rdp__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 16px 24px;
+  font-family: "Sora", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition:
+    background var(--rdp-transition),
+    transform 0.2s ease,
+    box-shadow var(--rdp-transition);
+}
+
+.rdp__btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.rdp__btn--primary {
+  background: var(--rdp-gold);
+  color: #fff;
+  border: none;
+  box-shadow: 0 4px 16px rgba(181, 151, 90, 0.3);
+}
+
+.rdp__btn--primary:hover {
+  background: var(--rdp-gold-light);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(181, 151, 90, 0.4);
+}
+
+.rdp__btn--secondary {
+  background: transparent;
+  color: var(--rdp-gold);
+  border: 2px solid var(--rdp-gold);
+}
+
+.rdp__btn--secondary:hover {
+  background: var(--rdp-gold);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.rdp__btn--ghost {
+  background: var(--rdp-surface);
+  color: var(--rdp-muted);
+  border: 1px solid var(--rdp-border);
+}
+
+.rdp__btn--ghost:hover {
+  background: var(--rdp-bg);
+  color: var(--rdp-ink);
+}
+
+.rdp__btn--success {
+  background: #10b981;
+  color: #fff;
+  border: none;
+}
+
+/* ── Actions Stack ────────────────────── */
+.rdp__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ═══════════════════════════════════════
+   LOADING STATE
+   ═══════════════════════════════════════ */
+.rdp__loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  gap: 20px;
+}
+
+.rdp__spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--rdp-border);
+  border-top-color: var(--rdp-gold);
+  border-radius: 50%;
+  animation: rdpSpin 1s linear infinite;
+}
+
+@keyframes rdpSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.rdp__loading-text {
+  font-size: 0.85rem;
+  color: var(--rdp-muted);
+  letter-spacing: 0.1em;
+}
+
+/* ═══════════════════════════════════════
+   NOT FOUND
+   ═══════════════════════════════════════ */
+.rdp__not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  gap: 16px;
+  text-align: center;
+  padding: 48px;
+}
+
+.rdp__not-found-icon {
+  width: 64px;
+  height: 64px;
+  color: var(--rdp-muted);
+  opacity: 0.4;
+}
+
+.rdp__not-found-title {
+  font-family: "Fraunces", serif;
+  font-size: 1.4rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.rdp__not-found-text {
+  color: var(--rdp-muted);
+  margin: 0;
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════ */
+@media (max-width: 900px) {
+  .rdp__content {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 32px 24px;
+  }
+
+  .rdp__hero {
+    height: 280px;
+  }
+
+  .rdp__hero-overlay {
+    padding: 32px 24px;
+  }
+
+  .rdp__title {
+    font-size: 1.6rem;
+  }
+
+  .rdp__section {
+    padding: 24px;
+  }
+
+  .rdp__contact-card {
+    padding: 24px;
+  }
+
+  .rdp__sidebar {
+    order: -1;
+  }
+}
+
+@media (max-width: 480px) {
+  .rdp__hero {
+    height: 220px;
+  }
+
+  .rdp__content {
+    padding: 24px 16px;
+  }
+
+  .rdp__title {
+    font-size: 1.4rem;
+  }
+
+  .rdp__section,
+  .rdp__contact-card {
+    padding: 20px;
+  }
+
+  .rdp__btn {
+    padding: 14px 20px;
+    font-size: 0.85rem;
+  }
+}
