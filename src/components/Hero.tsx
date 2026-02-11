@@ -223,13 +223,6 @@ const Hero: React.FC<HeroProps> = ({ onSuggestClick }) => {
       );
 
       masterTl.fromTo(
-        ".hero__scroll",
-        { opacity: 0, x: 20 },
-        { opacity: 1, x: 0, duration: 0.6 },
-        1.7,
-      );
-
-      masterTl.fromTo(
         ".hero__counter",
         { opacity: 0 },
         { opacity: 1, duration: 0.5 },
@@ -407,14 +400,6 @@ const Hero: React.FC<HeroProps> = ({ onSuggestClick }) => {
           </button>
         ))}
       </nav>
-
-      {/* Scroll indicator */}
-      <div className="hero__scroll">
-        <span>Scroll</span>
-        <div className="hero__scroll-track">
-          <div className="hero__scroll-thumb" />
-        </div>
-      </div>
     </section>
   );
 };
