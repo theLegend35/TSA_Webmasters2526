@@ -87,6 +87,14 @@ const LeaderDashboard: React.FC = () => {
   const [totalUsers, setTotalUsers] = useState(0);
   const [loading, setLoading] = useState(true);
 
+  // Animation & history state
+  const [animatingId, setAnimatingId] = useState<string | null>(null);
+  const [animationType, setAnimationType] = useState<
+    "approve" | "reject" | null
+  >(null);
+  const [recentlyApproved, setRecentlyApproved] = useState<any[]>([]);
+  const [recentlyRejected, setRecentlyRejected] = useState<any[]>([]);
+
   const [activeTab, setActiveTab] = useState<"resources" | "events">(
     "resources",
   );
@@ -291,6 +299,10 @@ const LeaderDashboard: React.FC = () => {
   };
 
   const handleApprove = async (item: any, type: "resource" | "event") => {
+    // Start animation
+    setAnimatingId(item.id);
+    setAnimationType("approve");
+
     try {
       const liveColl = type === "resource" ? "resources" : "events";
       const suggestColl =
@@ -311,6 +323,15 @@ const LeaderDashboard: React.FC = () => {
         createdAt: serverTimestamp(),
       });
 
+      // Wait for animation to complete
+      await new Promise((resolve) => setTimeout(resolve, 600));
+
+      // Add to recently approved
+      setRecentlyApproved((prev) => [
+        { ...item, type, approvedAt: new Date() },
+        ...prev.slice(0, 9), // Keep last 10
+      ]);
+
       if (isDemo) {
         // Remove from local state for demo items
         if (type === "resource") {
@@ -329,6 +350,47 @@ const LeaderDashboard: React.FC = () => {
       }
     } catch (err) {
       alert("Error approving.");
+    } finally {
+      setAnimatingId(null);
+      setAnimationType(null);
+    }
+  };
+
+  const handleReject = async (item: any, type: "resource" | "event") => {
+    // Start animation
+    setAnimatingId(item.id);
+    setAnimationType("reject");
+
+    try {
+      const suggestColl =
+        type === "resource" ? "resourceSuggestions" : "eventSuggestions";
+
+      // Check if this is demo data
+      const isDemo = item.id.startsWith("demo-");
+
+      // Wait for animation to complete
+      await new Promise((resolve) => setTimeout(resolve, 600));
+
+      // Add to recently rejected
+      setRecentlyRejected((prev) => [
+        { ...item, type, rejectedAt: new Date() },
+        ...prev.slice(0, 9), // Keep last 10
+      ]);
+
+      if (isDemo) {
+        if (type === "resource") {
+          setResSuggestions((prev) => prev.filter((r) => r.id !== item.id));
+        } else {
+          setEventSuggestions((prev) => prev.filter((e) => e.id !== item.id));
+        }
+      } else {
+        await deleteDoc(doc(db, suggestColl, item.id));
+      }
+    } catch (err) {
+      alert("Error rejecting.");
+    } finally {
+      setAnimatingId(null);
+      setAnimationType(null);
     }
   };
 
@@ -532,9 +594,9 @@ const LeaderDashboard: React.FC = () => {
               type="resource"
               isSuggestion
               onApprove={handleApprove}
-              onDelete={(id: string, name: string) =>
-                handleDelete(id, "resourceSuggestions", name)
-              }
+              onReject={(item: any) => handleReject(item, "resource")}
+              animatingId={animatingId}
+              animationType={animationType}
             />
           </div>
 
@@ -551,12 +613,130 @@ const LeaderDashboard: React.FC = () => {
               type="event"
               isSuggestion
               onApprove={handleApprove}
-              onDelete={(id: string, name: string) =>
-                handleDelete(id, "eventSuggestions", name)
-              }
+              onReject={(item: any) => handleReject(item, "event")}
+              animatingId={animatingId}
+              animationType={animationType}
             />
           </div>
         </section>
+
+        {/* Recently Approved Section */}
+        {recentlyApproved.length > 0 && (
+          <section className="lds__history lds__history--approved">
+            <div className="lds__section-header">
+              <h2 className="lds__section-title">
+                <span className="lds__section-title-icon lds__section-title-icon--approved">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </span>
+                Recently Approved
+              </h2>
+              <span className="lds__section-badge lds__section-badge--approved">
+                {recentlyApproved.length} approved
+              </span>
+            </div>
+            <div className="lds__history-grid">
+              {recentlyApproved.map((item) => (
+                <div
+                  key={item.id}
+                  className="lds__history-card lds__history-card--approved"
+                >
+                  <div className="lds__history-card-icon">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                  <div className="lds__history-card-content">
+                    <div className="lds__history-card-name">{item.name}</div>
+                    <div className="lds__history-card-meta">
+                      <span className="lds__history-card-type">
+                        {item.type}
+                      </span>
+                      <span className="lds__history-card-category">
+                        {item.category}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Recently Rejected Section */}
+        {recentlyRejected.length > 0 && (
+          <section className="lds__history lds__history--rejected">
+            <div className="lds__section-header">
+              <h2 className="lds__section-title">
+                <span className="lds__section-title-icon lds__section-title-icon--rejected">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                  </svg>
+                </span>
+                Recently Rejected
+              </h2>
+              <span className="lds__section-badge lds__section-badge--rejected">
+                {recentlyRejected.length} rejected
+              </span>
+            </div>
+            <div className="lds__history-grid">
+              {recentlyRejected.map((item) => (
+                <div
+                  key={item.id}
+                  className="lds__history-card lds__history-card--rejected"
+                >
+                  <div className="lds__history-card-icon">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <line x1="18" y1="6" x2="6" y2="18" />
+                      <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                  </div>
+                  <div className="lds__history-card-content">
+                    <div className="lds__history-card-name">{item.name}</div>
+                    <div className="lds__history-card-meta">
+                      <span className="lds__history-card-type">
+                        {item.type}
+                      </span>
+                      <span className="lds__history-card-category">
+                        {item.category}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* Starred Resources Section */}
         {starredResources.length > 0 && (
@@ -781,102 +961,216 @@ const LeaderDashboard: React.FC = () => {
   );
 };
 
-/* ─── Table Component ───────────────────────────────────────── */
+/* ─── Table Component with Expandable Rows ─────────────────── */
 const Table = ({
   data,
   loading,
   type,
   onApprove,
+  onReject,
   onDelete,
   isSuggestion,
   onStar,
   starredIds,
-}: any) => (
-  <div className="lds__table-wrap">
-    <table className="lds__table">
-      <thead className="lds__table-head">
-        <tr>
-          <th className="lds__table-th">
-            {type === "event" ? "Date" : "Added"}
-          </th>
-          <th className="lds__table-th">Information</th>
-          <th className="lds__table-th">Category</th>
-          <th className="lds__table-th">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {loading ? (
+  animatingId,
+  animationType,
+}: any) => {
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
+
+  return (
+    <div className="lds__table-wrap">
+      <table className="lds__table">
+        <thead className="lds__table-head">
           <tr>
-            <td colSpan={4} className="lds__table-empty">
-              Loading...
-            </td>
+            <th className="lds__table-th">
+              {type === "event" ? "Date" : "Added"}
+            </th>
+            <th className="lds__table-th">Information</th>
+            <th className="lds__table-th">Category</th>
+            <th className="lds__table-th">Actions</th>
           </tr>
-        ) : data.length === 0 ? (
-          <tr>
-            <td colSpan={4} className="lds__table-empty">
-              No items found
-            </td>
-          </tr>
-        ) : (
-          data.map((item: any) => (
-            <tr key={item.id} className="lds__table-row">
-              <td className="lds__table-td">
-                {type === "event"
-                  ? item.eventDate || "N/A"
-                  : item.createdAt?.toDate?.().toLocaleDateString() || "Today"}
-              </td>
-              <td className="lds__table-td">
-                <div className="lds__item-info">
-                  {type === "resource" && !isSuggestion && onStar && (
-                    <button
-                      onClick={() => onStar(item)}
-                      className={`lds__star-btn${starredIds?.includes(item.id) ? " lds__star-btn--active" : ""}`}
-                    >
-                      {starredIds?.includes(item.id) ? "★" : "☆"}
-                    </button>
-                  )}
-                  <div>
-                    <div className="lds__item-name">{item.name}</div>
-                    <div className="lds__item-location">📍 {item.location}</div>
-                  </div>
-                </div>
-              </td>
-              <td className="lds__table-td">
-                <span className="lds__category-badge">{item.category}</span>
-              </td>
-              <td className="lds__table-td">
-                <div className="lds__actions">
-                  {isSuggestion ? (
-                    <>
-                      <button
-                        onClick={() => onApprove(item, type)}
-                        className="lds__action-btn lds__action-btn--approve"
-                      >
-                        Approve
-                      </button>
-                      <button
-                        onClick={() => onDelete(item.id, item.name)}
-                        className="lds__action-btn lds__action-btn--reject"
-                      >
-                        Reject
-                      </button>
-                    </>
-                  ) : (
-                    <button
-                      onClick={() => onDelete(item.id, item.name)}
-                      className="lds__action-btn lds__action-btn--remove"
-                    >
-                      Remove
-                    </button>
-                  )}
-                </div>
+        </thead>
+        <tbody>
+          {loading ? (
+            <tr>
+              <td colSpan={4} className="lds__table-empty">
+                Loading...
               </td>
             </tr>
-          ))
-        )}
-      </tbody>
-    </table>
-  </div>
-);
+          ) : data.length === 0 ? (
+            <tr>
+              <td colSpan={4} className="lds__table-empty">
+                No items found
+              </td>
+            </tr>
+          ) : (
+            data.map((item: any) => (
+              <React.Fragment key={item.id}>
+                <tr
+                  className={`lds__table-row${
+                    animatingId === item.id
+                      ? animationType === "approve"
+                        ? " lds__table-row--approving"
+                        : " lds__table-row--rejecting"
+                      : ""
+                  }${!isSuggestion && hoveredId === item.id ? " lds__table-row--expanded" : ""}`}
+                  onMouseEnter={() => !isSuggestion && setHoveredId(item.id)}
+                  onMouseLeave={() => !isSuggestion && setHoveredId(null)}
+                >
+                  <td className="lds__table-td">
+                    {type === "event"
+                      ? item.eventDate || "N/A"
+                      : item.createdAt?.toDate?.().toLocaleDateString() ||
+                        "Today"}
+                  </td>
+                  <td className="lds__table-td">
+                    <div className="lds__item-info">
+                      {type === "resource" && !isSuggestion && onStar && (
+                        <button
+                          onClick={() => onStar(item)}
+                          className={`lds__star-btn${starredIds?.includes(item.id) ? " lds__star-btn--active" : ""}`}
+                        >
+                          {starredIds?.includes(item.id) ? "★" : "☆"}
+                        </button>
+                      )}
+                      <div>
+                        <div className="lds__item-name">{item.name}</div>
+                        <div className="lds__item-location">
+                          📍 {item.location}
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="lds__table-td">
+                    <span className="lds__category-badge">{item.category}</span>
+                  </td>
+                  <td className="lds__table-td">
+                    <div className="lds__actions">
+                      {isSuggestion ? (
+                        <>
+                          <button
+                            onClick={() => onApprove(item, type)}
+                            className="lds__action-btn lds__action-btn--approve"
+                            disabled={animatingId === item.id}
+                          >
+                            {animatingId === item.id &&
+                            animationType === "approve" ? (
+                              <span className="lds__action-spinner" />
+                            ) : (
+                              "Approve"
+                            )}
+                          </button>
+                          <button
+                            onClick={() => onReject(item)}
+                            className="lds__action-btn lds__action-btn--reject"
+                            disabled={animatingId === item.id}
+                          >
+                            {animatingId === item.id &&
+                            animationType === "reject" ? (
+                              <span className="lds__action-spinner" />
+                            ) : (
+                              "Reject"
+                            )}
+                          </button>
+                        </>
+                      ) : (
+                        <button
+                          onClick={() => onDelete(item.id, item.name)}
+                          className="lds__action-btn lds__action-btn--remove"
+                        >
+                          Remove
+                        </button>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+                {/* Expandable Details Row for Live Resources/Events */}
+                {!isSuggestion && (
+                  <tr
+                    className={`lds__table-row-details${hoveredId === item.id ? " lds__table-row-details--visible" : ""}`}
+                    onMouseEnter={() => setHoveredId(item.id)}
+                    onMouseLeave={() => setHoveredId(null)}
+                  >
+                    <td colSpan={4}>
+                      <div className="lds__details-cell">
+                        <div className="lds__details-inner">
+                          <div className="lds__details-content">
+                            <div className="lds__details-main">
+                              {item.description && (
+                                <div className="lds__details-description">
+                                  <span className="lds__details-label">
+                                    Description
+                                  </span>
+                                  <p>{item.description}</p>
+                                </div>
+                              )}
+                              <div className="lds__details-grid">
+                                {item.phone && (
+                                  <div className="lds__details-item">
+                                    <span className="lds__details-icon">
+                                      📞
+                                    </span>
+                                    <span>{item.phone}</span>
+                                  </div>
+                                )}
+                                {item.url && (
+                                  <div className="lds__details-item">
+                                    <span className="lds__details-icon">
+                                      🔗
+                                    </span>
+                                    <a
+                                      href={item.url}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      Visit Website
+                                    </a>
+                                  </div>
+                                )}
+                                {item.imageUrl && (
+                                  <div className="lds__details-item">
+                                    <span className="lds__details-icon">
+                                      🖼️
+                                    </span>
+                                    <span>Has Image</span>
+                                  </div>
+                                )}
+                                {type === "event" && item.eventDate && (
+                                  <div className="lds__details-item">
+                                    <span className="lds__details-icon">
+                                      📅
+                                    </span>
+                                    <span>{item.eventDate}</span>
+                                  </div>
+                                )}
+                                {item.approvedBy && (
+                                  <div className="lds__details-item">
+                                    <span className="lds__details-icon">
+                                      ✅
+                                    </span>
+                                    <span>Approved by {item.approvedBy}</span>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                            {item.imageUrl && (
+                              <div className="lds__details-image">
+                                <img src={item.imageUrl} alt={item.name} />
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </React.Fragment>
+            ))
+          )}
+        </tbody>
+      </table>
+    </div>
+  );
+};
 
 export default LeaderDashboard;
