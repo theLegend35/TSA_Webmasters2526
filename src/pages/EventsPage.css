@@ -530,7 +530,7 @@
 .ev__modal-content {
   position: relative;
   width: 100%;
-  max-width: 600px;
+  max-width: 980px;
   background: var(--ev-surface);
   border: 1px solid var(--ev-border);
   border-radius: 28px;
@@ -538,6 +538,8 @@
   box-shadow:
     0 50px 100px -20px rgba(0, 0, 0, 0.5),
     0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+  max-height: 90vh;
+  overflow-y: auto;
   transform: scale(0.9) translateY(30px);
   opacity: 0;
   transition:
