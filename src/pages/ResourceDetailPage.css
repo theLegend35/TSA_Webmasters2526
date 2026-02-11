@@ -116,9 +116,69 @@
   box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
 }
 
+.rdp__badge--verified {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
 .rdp__badge svg {
   width: 12px;
   height: 12px;
+}
+
+/* ═══════════════════════════════════════
+   QUICK STATS BAR
+   ═══════════════════════════════════════ */
+.rdp__stats-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background: var(--rdp-bg);
+  border-bottom: 1px solid var(--rdp-border);
+}
+
+.rdp__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 24px 16px;
+  text-align: center;
+  border-right: 1px solid var(--rdp-border);
+}
+
+.rdp__stat:last-child {
+  border-right: none;
+}
+
+.rdp__stat-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(181, 151, 90, 0.1);
+  border-radius: 12px;
+  color: var(--rdp-gold);
+}
+
+.rdp__stat-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.rdp__stat-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--rdp-muted);
+}
+
+.rdp__stat-value {
+  font-family: "Fraunces", serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--rdp-ink);
 }
 
 .rdp__title {
@@ -183,11 +243,112 @@
   margin: 0 0 20px 0;
 }
 
+.rdp__section-title svg {
+  width: 18px;
+  height: 18px;
+  opacity: 0.7;
+}
+
 .rdp__section-title::after {
   content: "";
   flex: 1;
   height: 1px;
   background: var(--rdp-border);
+}
+
+/* ── Services Tags ────────────────────── */
+.rdp__services {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.rdp__service-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: rgba(181, 151, 90, 0.08);
+  border: 1px solid rgba(181, 151, 90, 0.15);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--rdp-ink);
+  transition: all 0.3s ease;
+}
+
+.rdp__service-tag:hover {
+  background: rgba(181, 151, 90, 0.15);
+  border-color: var(--rdp-gold);
+}
+
+.rdp__service-tag svg {
+  width: 14px;
+  height: 14px;
+  color: var(--rdp-gold);
+}
+
+/* ── Hours Grid ────────────────────────── */
+.rdp__hours-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rdp__hours-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--rdp-surface);
+  border: 1px solid var(--rdp-border);
+  border-radius: 12px;
+}
+
+.rdp__hours-day {
+  font-weight: 600;
+  color: var(--rdp-ink);
+}
+
+.rdp__hours-time {
+  color: var(--rdp-muted);
+  font-size: 0.9rem;
+}
+
+/* ── Amenities ────────────────────────── */
+.rdp__section--highlight {
+  background: linear-gradient(
+    135deg,
+    rgba(181, 151, 90, 0.05) 0%,
+    var(--rdp-bg) 100%
+  );
+  border-color: rgba(181, 151, 90, 0.2);
+}
+
+.rdp__amenities {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.rdp__amenity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--rdp-surface);
+  border: 1px solid var(--rdp-border);
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--rdp-ink);
+}
+
+.rdp__amenity svg {
+  width: 20px;
+  height: 20px;
+  color: var(--rdp-gold);
+  flex-shrink: 0;
 }
 
 .rdp__description {
@@ -335,11 +496,94 @@
   border: none;
 }
 
+.rdp__btn--outline {
+  background: transparent;
+  color: var(--rdp-ink);
+  border: 1px solid var(--rdp-border);
+}
+
+.rdp__btn--outline:hover {
+  background: var(--rdp-bg);
+  border-color: var(--rdp-gold);
+  color: var(--rdp-gold);
+  transform: translateY(-2px);
+}
+
 /* ── Actions Stack ────────────────────── */
 .rdp__actions {
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+
+/* ═══════════════════════════════════════
+   TRUST CARD
+   ═══════════════════════════════════════ */
+.rdp__trust-card {
+  background: linear-gradient(
+    135deg,
+    rgba(181, 151, 90, 0.08) 0%,
+    var(--rdp-bg) 100%
+  );
+  border: 1px solid rgba(181, 151, 90, 0.2);
+  border-radius: var(--rdp-radius);
+  padding: 24px;
+  text-align: center;
+}
+
+.rdp__trust-title {
+  font-family: "Fraunces", serif;
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0 0 20px 0;
+  color: var(--rdp-ink);
+}
+
+.rdp__trust-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.rdp__trust-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rdp__trust-num {
+  font-family: "Fraunces", serif;
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: var(--rdp-gold);
+  line-height: 1;
+}
+
+.rdp__trust-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--rdp-muted);
+}
+
+.rdp__trust-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: var(--rdp-muted);
+  margin: 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--rdp-border);
+}
+
+.rdp__trust-note svg {
+  width: 16px;
+  height: 16px;
+  color: #10b981;
 }
 
 /* ═══════════════════════════════════════
@@ -412,6 +656,19 @@
    RESPONSIVE
    ═══════════════════════════════════════ */
 @media (max-width: 900px) {
+  .rdp__stats-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .rdp__stat:nth-child(2) {
+    border-right: none;
+  }
+
+  .rdp__stat:nth-child(3),
+  .rdp__stat:nth-child(4) {
+    border-top: 1px solid var(--rdp-border);
+  }
+
   .rdp__content {
     grid-template-columns: 1fr;
     gap: 32px;
@@ -434,7 +691,12 @@
     padding: 24px;
   }
 
-  .rdp__contact-card {
+  .rdp__amenities {
+    grid-template-columns: 1fr;
+  }
+
+  .rdp__contact-card,
+  .rdp__trust-card {
     padding: 24px;
   }
 
@@ -444,6 +706,14 @@
 }
 
 @media (max-width: 480px) {
+  .rdp__stats-bar {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .rdp__stat {
+    padding: 16px 12px;
+  }
+
   .rdp__hero {
     height: 220px;
   }
@@ -457,12 +727,22 @@
   }
 
   .rdp__section,
-  .rdp__contact-card {
+  .rdp__contact-card,
+  .rdp__trust-card {
     padding: 20px;
   }
 
   .rdp__btn {
     padding: 14px 20px;
     font-size: 0.85rem;
+  }
+
+  .rdp__services {
+    gap: 8px;
+  }
+
+  .rdp__service-tag {
+    padding: 8px 12px;
+    font-size: 0.8rem;
   }
 }

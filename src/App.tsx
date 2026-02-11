@@ -22,7 +22,17 @@ import AboutPage from "./pages/AboutPage";
 function NavBarContent() {
   const { user, logout, theme, toggleTheme } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const isActive = (path: string): string =>
     location.pathname === path ? "nav-link active" : "nav-link";
@@ -67,7 +77,7 @@ function NavBarContent() {
 
   return (
     <>
-      <nav className="nav">
+      <nav className={`nav${scrolled ? " nav--scrolled" : ""}`}>
         <div className="nav__inner">
           <Link to="/" className="nav__logo">
             Cypress<span>Hub</span>

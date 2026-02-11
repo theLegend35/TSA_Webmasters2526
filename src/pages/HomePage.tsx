@@ -67,6 +67,18 @@ const HomePage: React.FC = () => {
   const scrollToForm = () =>
     formRef.current?.scrollIntoView({ behavior: "smooth" });
 
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (selectedResourceId) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [selectedResourceId]);
+
   useEffect(() => {
     const handleScroll = () => setShowBackToTop(window.scrollY > 500);
     window.addEventListener("scroll", handleScroll);
