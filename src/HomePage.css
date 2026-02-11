@@ -1,4 +1,4 @@
-/* ═══════════════════════════════════════════════════════════
+﻿/* ═══════════════════════════════════════════════════════════
    CypressHub — Homepage Luxury Stylesheet
    Fonts: Sora (body), Fraunces (display)
    ═══════════════════════════════════════════════════════════ */
@@ -786,6 +786,10 @@
 .hp .category-row-container {
   margin-bottom: 56px;
   position: relative;
+  /* Break out to viewport edges */
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+  padding-left: calc(50vw - 50%);
 }
 
 .hp .section-header-flex {
@@ -795,6 +799,9 @@
   margin-bottom: 24px;
   padding-bottom: 0;
   border-bottom: none;
+  /* Constrain header to content width */
+  max-width: 1280px;
+  padding-right: 40px;
 }
 .hp .category-title-large {
   font-family: "Fraunces", serif;
@@ -837,18 +844,21 @@
 .hp .resources-slider-container {
   display: flex;
   overflow-x: auto;
+  overflow-y: hidden;
   scroll-behavior: smooth;
-  gap: 28px;
-  padding: 20px 24px 40px;
-  margin: 0 -24px;
+  gap: 24px;
+  padding: 24px 0 40px 0;
   scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x proximity;
 }
 .hp .resources-slider-container::-webkit-scrollbar {
   display: none;
 }
 
 .hp .resource-card {
-  flex: 0 0 340px;
+  flex: 0 0 320px;
+  scroll-snap-align: start;
   background: var(--hp-surface);
   border: 1px solid var(--hp-border);
   border-radius: 16px;
@@ -861,6 +871,7 @@
     box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
     border-color 0.3s ease;
   position: relative;
+  cursor: pointer;
 }
 .hp .resource-card::before {
   content: "";
@@ -913,6 +924,15 @@
 .hp .resource-card:hover .card-image-placeholder img {
   transform: scale(1.1);
 }
+.hp .image-icon-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 4rem;
+  opacity: 0.3;
+}
 .hp .category-tag-alt {
   position: absolute;
   top: 18px;
@@ -932,22 +952,27 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 .hp .card-details {
-  padding: 26px 28px 28px;
+  padding: 24px 24px 26px;
+  background: var(--hp-surface);
 }
 .hp .card-details h3 {
   font-family: "Fraunces", serif;
-  font-size: 1.2rem;
-  font-weight: 500;
+  font-size: 1.15rem;
+  font-weight: 600;
   margin: 0 0 10px;
   color: var(--hp-ink);
   letter-spacing: -0.01em;
   line-height: 1.3;
 }
 .hp .card-details p {
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   color: var(--hp-muted);
-  line-height: 1.65;
-  margin: 0 0 16px;
+  line-height: 1.6;
+  margin: 0 0 18px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .hp .learn-more-link {
   color: var(--hp-gold);
@@ -955,13 +980,14 @@
   font-size: 0.85rem;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   transition:
     gap 0.3s ease,
     color 0.3s ease;
+  text-decoration: none;
 }
 .hp .learn-more-link:hover {
-  gap: 12px;
+  gap: 10px;
   color: #c9a962;
 }
 
@@ -1194,6 +1220,14 @@
     padding: 0 20px;
   }
 
+  .hp .category-row-container {
+    padding-left: calc(50vw - 50% + 20px);
+  }
+
+  .hp .section-header-flex {
+    padding-right: 20px;
+  }
+
   .hero {
     height: 80vh;
     min-height: 500px;
@@ -1228,7 +1262,12 @@
   }
 
   .hp .resource-card {
-    flex: 0 0 260px;
+    flex: 0 0 280px;
+  }
+
+  .hp .resources-slider-container {
+    gap: 20px;
+    padding: 20px 0 36px 0;
   }
 }
 
@@ -1240,5 +1279,13 @@
     padding: 18px 20px;
     flex-direction: column;
     gap: 6px;
+  }
+
+  .hp .resource-card {
+    flex: 0 0 260px;
+  }
+
+  .hp .resources-slider-container {
+    gap: 16px;
   }
 }
