@@ -112,16 +112,24 @@ const Hero: React.FC<HeroProps> = ({ onSuggestClick }) => {
         },
       });
 
-      /* Background crossfade with parallax Ken Burns */
+      /* Background crossfade with enhanced parallax Ken Burns */
       const prevBg = bgRefs.current[prevIndex];
       const nextBg = bgRefs.current[nextIndex];
 
       if (prevBg) {
-        tl.to(prevBg, { opacity: 0, scale: 1.1, duration: 1.4 }, 0);
+        tl.to(
+          prevBg,
+          { opacity: 0, scale: 1.15, duration: 1.6, ease: "power2.inOut" },
+          0,
+        );
       }
       if (nextBg) {
-        gsap.set(nextBg, { scale: 1.15, opacity: 0 });
-        tl.to(nextBg, { opacity: 1, scale: 1, duration: 1.4 }, 0);
+        gsap.set(nextBg, { scale: 1.2, opacity: 0 });
+        tl.to(
+          nextBg,
+          { opacity: 1, scale: 1, duration: 1.6, ease: "power2.inOut" },
+          0,
+        );
       }
 
       /* Content exit — stagger children out */
@@ -134,19 +142,29 @@ const Hero: React.FC<HeroProps> = ({ onSuggestClick }) => {
             animateCounter(nextIndex);
           },
           [],
-          0.5,
+          0.55,
         );
       }
 
-      /* Pulse active dot */
+      /* Pulse active dot with enhanced animation */
       const dots = dotsRef.current?.querySelectorAll(".hero__dot");
       if (dots) {
-        gsap.to(dots, { scale: 1, duration: 0.3, ease: "power2.out" });
+        gsap.to(dots, {
+          scale: 1,
+          duration: 0.4,
+          ease: "power2.out",
+          opacity: 0.6,
+        });
         if (dots[nextIndex]) {
           gsap.fromTo(
             dots[nextIndex],
-            { scale: 1.3 },
-            { scale: 1, duration: 0.5, ease: "elastic.out(1, 0.4)" },
+            { scale: 1.4, opacity: 0.8 },
+            {
+              scale: 1,
+              opacity: 1,
+              duration: 0.7,
+              ease: "elastic.out(1.2, 0.6)",
+            },
           );
         }
       }
@@ -182,51 +200,114 @@ const Hero: React.FC<HeroProps> = ({ onSuggestClick }) => {
 
       const masterTl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
-      /* 1. Background zoom-in reveal */
+      /* 1. Background zoom-in reveal with tilt */
       const firstBg = bgRefs.current[0];
       if (firstBg) {
         masterTl.fromTo(
           firstBg,
-          { opacity: 0, scale: 1.25 },
-          { opacity: 1, scale: 1, duration: 2.2, ease: "power2.out" },
+          { opacity: 0, scale: 1.3 },
+          { opacity: 1, scale: 1, duration: 2.4, ease: "power2.out" },
           0,
         );
       }
 
-      /* 2. Vignette fade */
+      /* 2. Vignette fade — enhanced */
       masterTl.fromTo(
         ".hero__vignette",
         { opacity: 0 },
-        { opacity: 1, duration: 1.5 },
-        0.3,
+        { opacity: 1, duration: 1.8 },
+        0.2,
       );
 
-      /* 7. UI chrome */
+      /* 3. Content group entrance with stagger */
+      masterTl.fromTo(
+        ".hero__tag",
+        { opacity: 0, y: 20, scale: 0.8 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.7,
+          ease: "back.out(1.2)",
+        },
+        1.2,
+      );
+
+      masterTl.fromTo(
+        ".hero__title-line",
+        { opacity: 0, y: 40, scale: 0.9 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.9,
+          stagger: 0.15,
+          ease: "power4.out",
+        },
+        1.3,
+      );
+
+      masterTl.fromTo(
+        ".hero__sub",
+        { opacity: 0, y: 20, filter: "blur(6px)" },
+        {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          duration: 0.8,
+          ease: "power3.out",
+        },
+        "-=0.4",
+      );
+
+      masterTl.fromTo(
+        ".hero__cta",
+        { opacity: 0, y: 20, scale: 0.9 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.7,
+          stagger: 0.12,
+          ease: "back.out(1.3)",
+        },
+        "-=0.5",
+      );
+
+      /* 7. UI chrome — enhanced animations */
       masterTl.fromTo(
         ".hero__arrow",
-        { opacity: 0, scale: 0.6 },
+        { opacity: 0, scale: 0.5, y: 20 },
         {
           opacity: 1,
           scale: 1,
-          duration: 0.6,
-          stagger: 0.1,
-          ease: "back.out(2)",
+          y: 0,
+          duration: 0.7,
+          stagger: 0.12,
+          ease: "back.out(2.2)",
         },
-        1.5,
-      );
-
-      masterTl.fromTo(
-        ".hero__dots",
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.6 },
         1.6,
       );
 
       masterTl.fromTo(
-        ".hero__counter",
-        { opacity: 0 },
-        { opacity: 1, duration: 0.5 },
+        ".hero__dots",
+        { opacity: 0, y: 30, scale: 0.8 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: "back.out(1.4)" },
         1.7,
+      );
+
+      masterTl.fromTo(
+        ".hero__counter",
+        { opacity: 0, y: 20, scale: 0.8 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: "back.out(1.4)" },
+        1.8,
+      );
+
+      masterTl.fromTo(
+        ".hero__scroll",
+        { opacity: 0 },
+        { opacity: 1, duration: 0.6 },
+        1.9,
       );
     }, heroRef);
 
@@ -250,16 +331,16 @@ const Hero: React.FC<HeroProps> = ({ onSuggestClick }) => {
   /* ── Arrow hover magnetic effect ── */
   const handleArrowEnter = (e: React.MouseEvent<HTMLButtonElement>) => {
     gsap.to(e.currentTarget, {
-      scale: 1.15,
-      duration: 0.3,
-      ease: "power2.out",
+      scale: 1.2,
+      duration: 0.4,
+      ease: "back.out(1.6)",
     });
   };
   const handleArrowLeave = (e: React.MouseEvent<HTMLButtonElement>) => {
     gsap.to(e.currentTarget, {
       scale: 1,
-      duration: 0.4,
-      ease: "elastic.out(1, 0.4)",
+      duration: 0.5,
+      ease: "elastic.out(1.2, 0.5)",
     });
   };
 

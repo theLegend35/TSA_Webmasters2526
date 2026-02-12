@@ -561,30 +561,14 @@ const HomePage: React.FC = () => {
                 onResourceClick={setSelectedResourceId}
               />
 
-              <div className="hp-spacer" />
-              <h2 className="hp-h2">Explore by Category</h2>
-              <ResourceRow
-                title="Food & Nutrition"
-                resources={allResources.filter((r) => r.category === "Food")}
-                onResourceClick={setSelectedResourceId}
-              />
-              <ResourceRow
-                title="Health & Wellness"
-                resources={allResources.filter((r) => r.category === "Health")}
-                onResourceClick={setSelectedResourceId}
-              />
-            </div>
-
-            {/* Sidebar */}
-            <aside className="hp-side">
-              <div className="hp-side__card">
-                <div className="hp-side__header">
+              <div className="hp-events-bar">
+                <div className="hp-events-bar__header">
                   <h3>Upcoming Events</h3>
-                  <Link to="/events" className="hp-side__link">
+                  <Link to="/events" className="hp-events-bar__link">
                     See All <ArrowIcon />
                   </Link>
                 </div>
-                <div className="hp-events">
+                <div className="hp-events hp-events--bar">
                   {liveEvents.map((ev) => (
                     <Link to={`/event/${ev.id}`} key={ev.id} className="hp-ev">
                       <div className="hp-ev__date">
@@ -606,6 +590,22 @@ const HomePage: React.FC = () => {
                 </div>
               </div>
 
+              <div className="hp-spacer" />
+              <h2 className="hp-h2">Explore by Category</h2>
+              <ResourceRow
+                title="Food & Nutrition"
+                resources={allResources.filter((r) => r.category === "Food")}
+                onResourceClick={setSelectedResourceId}
+              />
+              <ResourceRow
+                title="Health & Wellness"
+                resources={allResources.filter((r) => r.category === "Health")}
+                onResourceClick={setSelectedResourceId}
+              />
+            </div>
+
+            {/* Sidebar */}
+            <aside className="hp-side">
               <div className="hp-side__card hp-side__subscribe">
                 <Subscribe />
               </div>
