@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { db, auth } from '../firebase'; 
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore'; 
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import EventMapEmbed from './EventMapEmbed';
+import ReservationForm from './ReservationForm';
 
 const categoryImages: Record<string, string> = {
   food: "https://images.unsplash.com/photo-1488459711635-de84fe344715?auto=format&fit=crop&w=800",
@@ -23,6 +26,9 @@ const categoryImages: Record<string, string> = {
 };
 
 const ResourceForm: React.FC = () => {
+  const { theme } = useAuth();
+  const isDark = theme === "dark";
+
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -38,12 +44,23 @@ const ResourceForm: React.FC = () => {
   const [phone, setPhone] = useState('');
   const [eventDate, setEventDate] = useState('');
   const [location, setLocation] = useState('');
+  const [selectedSpot, setSelectedSpot] = useState<string | null>(null);
 
   const user = auth.currentUser;
 
   const categories = submissionType === 'resource' 
     ? ['Food', 'Health', 'Education', 'Housing', 'Jobs', 'Legal', 'Financial Aid', 'Community', 'Other']
     : ['Recreational', 'Volunteering', 'Town Hall', 'Workshop', 'Festival', 'Other'];
+
+  // Dynamic styles based on theme
+  const containerStyle = { background: isDark ? '#1a1a1a' : '#ffffff', padding: '40px', borderRadius: '15px', border: `1px solid ${isDark ? 'rgba(181, 151, 90, 0.3)' : 'rgba(0, 0, 0, 0.08)'}`, marginTop: '40px' };
+  const labelStyle = { fontSize: '0.9rem', fontWeight: '600', color: isDark ? '#f5f5f5' : '#0d0d0d', marginBottom: '-5px' };
+  const formStyle = { display: 'flex', flexDirection: 'column' as const, gap: '20px' };
+  const inputStyle = { padding: '12px', borderRadius: '8px', border: `1px solid ${isDark ? 'rgba(181, 151, 90, 0.3)' : 'rgba(0, 0, 0, 0.06)'}`, background: isDark ? '#0d0d0d' : '#faf8f5', color: isDark ? '#f5f5f5' : '#0d0d0d', fontFamily: 'inherit' };
+  const buttonStyle = { padding: '14px', borderRadius: '8px', border: 'none', background: '#b5975a', color: '#ffffff', fontWeight: 'bold' as const, cursor: 'pointer', transition: 'opacity 0.2s' };
+  const successStyle = { padding: '20px', background: '#dcfce7', color: '#166534', borderRadius: '8px', textAlign: 'center' as const };
+  const activeToggleStyle = { ...buttonStyle, flex: 1, background: '#b5975a' };
+  const inactiveToggleStyle = { ...buttonStyle, flex: 1, background: isDark ? '#0d0d0d' : '#faf8f5', color: isDark ? '#a0a0a0' : '#6b6b6b', border: `1px solid ${isDark ? 'rgba(181, 151, 90, 0.3)' : 'rgba(0, 0, 0, 0.06)'}` };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -108,8 +125,8 @@ const ResourceForm: React.FC = () => {
   if (!user) {
     return (
       <div className="form-container" style={{...containerStyle, textAlign: 'center'}}>
-        <h2 style={{ color: 'var(--text-main)' }}>🤝 Community Contributions</h2>
-        <p style={{ color: 'var(--text-muted)' }}>Only verified residents can suggest resources or events.</p>
+        <h2 style={{ color: isDark ? '#f5f5f5' : '#0d0d0d' }}>🤝 Community Contributions</h2>
+        <p style={{ color: isDark ? '#a0a0a0' : '#6b6b6b' }}>Only verified residents can suggest resources or events.</p>
         <button onClick={() => navigate('/login')} style={{...buttonStyle, marginTop: '20px'}}>
           🔑 Sign In to Contribute
         </button>
@@ -119,7 +136,7 @@ const ResourceForm: React.FC = () => {
 
   return (
     <div className="form-container" style={containerStyle}>
-      <h2 style={{ color: 'var(--text-main)', marginTop: 0 }}>
+      <h2 style={{ color: isDark ? '#f5f5f5' : '#0d0d0d', marginTop: 0 }}>
         {submissionType === 'resource' ? 'Suggest a Resource' : 'Suggest an Event'}
       </h2>
       
@@ -178,6 +195,14 @@ const ResourceForm: React.FC = () => {
               <div>
                  <label style={labelStyle}>Address (Optional)</label>
                  <input type="text" placeholder="Street Address" value={address} onChange={(e) => setAddress(e.target.value)} style={inputStyle} />
+                 {address && (
+                   <div style={{marginTop: '10px'}}>
+                     <label style={labelStyle}>Location Preview</label>
+                     <div style={{borderRadius: '8px', overflow: 'hidden', height: '200px'}}>
+                       <EventMapEmbed location={address} />
+                     </div>
+                   </div>
+                 )}
               </div>
               <div>
                  <label style={labelStyle}>Phone (Optional)</label>
@@ -200,14 +225,5 @@ const ResourceForm: React.FC = () => {
     </div>
   );
 };
-
-const containerStyle = { background: 'var(--card-bg)', padding: '40px', borderRadius: '15px', border: '1px solid var(--border-color)', marginTop: '40px' };
-const labelStyle = { fontSize: '0.9rem', fontWeight: '600', color: 'var(--text-main)', marginBottom: '-5px' };
-const formStyle = { display: 'flex', flexDirection: 'column' as const, gap: '20px' };
-const inputStyle = { padding: '12px', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'var(--bg-color)', color: 'var(--text-main)', fontFamily: 'inherit' };
-const buttonStyle = { padding: '14px', borderRadius: '8px', border: 'none', background: 'var(--primary)', color: 'white', fontWeight: 'bold' as const, cursor: 'pointer', transition: 'opacity 0.2s' };
-const successStyle = { padding: '20px', background: '#dcfce7', color: '#166534', borderRadius: '8px', textAlign: 'center' as const };
-const activeToggleStyle = { ...buttonStyle, flex: 1, background: 'var(--primary)' };
-const inactiveToggleStyle = { ...buttonStyle, flex: 1, background: 'var(--bg-color)', color: 'var(--text-muted)', border: '1px solid var(--border-color)' };
 
 export default ResourceForm;

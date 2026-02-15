@@ -316,9 +316,11 @@ body {
   .nav__links {
     display: none;
   }
+
   .nav__hamburger {
     display: block;
   }
+
   .nav__inner {
     padding: 0 24px;
   }
@@ -472,9 +474,11 @@ body {
   font-weight: 800;
   margin-bottom: 10px;
 }
+
 .auth-logo span {
   color: var(--primary);
 }
+
 .auth-tagline {
   font-size: 1.2rem;
   color: var(--text-muted);
@@ -517,6 +521,7 @@ body {
   gap: 10px;
   margin: 15px 0;
 }
+
 .creds-pill {
   background: var(--bg-color);
   padding: 8px 15px;
@@ -541,12 +546,14 @@ body {
 .input-field {
   margin-bottom: 20px;
 }
+
 .input-field label {
   display: block;
   margin-bottom: 8px;
   font-weight: 600;
   font-size: 0.9rem;
 }
+
 .input-field input {
   width: 100%;
   padding: 14px;
@@ -609,6 +616,7 @@ body {
   line-height: 0.1em;
   margin: 10px 0;
 }
+
 .auth-divider span {
   background: var(--card-bg);
   padding: 0 10px;
@@ -621,9 +629,11 @@ body {
     grid-template-columns: 1fr;
     gap: 40px;
   }
+
   .auth-info-brand {
     text-align: center;
   }
+
   .auth-tagline {
     margin: 0 auto 30px;
   }
@@ -748,6 +758,7 @@ body {
   line-height: 1.4;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
+
 .hero-section-override {
   text-align: center;
   padding: 140px 40px;
@@ -812,6 +823,7 @@ body {
 }
 
 @keyframes bounce {
+
   0%,
   20%,
   50%,
@@ -819,9 +831,11 @@ body {
   100% {
     transform: translateY(0);
   }
+
   40% {
     transform: translateY(-10px);
   }
+
   60% {
     transform: translateY(-5px);
   }
@@ -979,6 +993,7 @@ body {
 .learn-more-btn:hover span {
   transform: translateX(4px);
 }
+
 /* Old navbar overrides removed */
 
 .homepage,
@@ -998,6 +1013,7 @@ body {
   width: 100%;
   margin-bottom: 0;
 }
+
 input::-ms-reveal,
 input::-ms-clear {
   display: none;
@@ -1253,6 +1269,7 @@ input::-webkit-credentials-auto-fill-button {
   display: inline-block;
   margin-top: 15px;
 }
+
 :root {
   --primary: #2563eb;
   --primary-dark: #1d4ed8;
@@ -1333,6 +1350,7 @@ body {
   font-weight: 700;
   color: var(--text-main);
 }
+
 .card-image-placeholder {
   height: 180px;
   background: var(--hub-navy);
@@ -1345,6 +1363,7 @@ body {
 .card-details h3 {
   color: var(--text-main);
 }
+
 .card-details p {
   color: var(--text-muted);
 }
@@ -1608,9 +1627,11 @@ body {
   .detail-grid {
     grid-template-columns: 1fr;
   }
+
   .hero-overlay h1 {
     font-size: 2.5rem;
   }
+
   .hero-image-container {
     height: 300px;
   }
@@ -1850,6 +1871,7 @@ body {
 .nav-links a:hover {
   color: var(--dp-accent, #3b82f6);
 }
+
 .event-search-container {
   margin-top: 30px;
   width: 100%;
@@ -1930,10 +1952,12 @@ body {
   font-size: 0.85rem !important;
   height: auto;
 }
+
 .nav-logo {
   font-size: 1.2rem;
   margin-right: 15px;
 }
+
 .dark-mode input[type="datetime-local"]::-webkit-calendar-picker-indicator {
   filter: invert(1);
   cursor: pointer;
@@ -1942,6 +1966,7 @@ body {
 .dark-mode input[type="datetime-local"] {
   color-scheme: dark;
 }
+
 .dark-mode input[type="datetime-local"]::-webkit-calendar-picker-indicator {
   filter: brightness(0) invert(1);
   cursor: pointer;
@@ -1986,4 +2011,5 @@ body {
   transform: translateY(-5px);
   background: rgba(37, 99, 235, 1);
 }
+
 /* Old nav vars removed — premium navbar styles are at top of file */

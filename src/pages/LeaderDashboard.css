@@ -377,11 +377,21 @@
   cursor: pointer;
   transition: var(--lds-transition);
   box-shadow: 0 4px 15px rgba(181, 151, 90, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.lds__add-btn::before {
+  content: "";
 }
 
 .lds__add-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(181, 151, 90, 0.4);
+}
+
+.lds__add-btn:hover::before {
+  content: "";
 }
 
 .lds__add-btn-icon {

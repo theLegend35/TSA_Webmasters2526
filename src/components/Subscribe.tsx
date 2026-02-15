@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Subscribe: React.FC = () => {
+const WeeklyUpdates: React.FC = () => {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "success">("idle");
 
@@ -13,31 +13,37 @@ const Subscribe: React.FC = () => {
   };
 
   return (
-    <div className="hp-subscribe">
-      <h4 className="hp-subscribe__title">Cypress Weekly Updates</h4>
-      <p className="hp-subscribe__body">
-        Get local resources and events sent to your inbox.
-      </p>
+    <div className="weekly-updates-horizontal">
+      <div className="weekly-updates-content">
+        <div className="weekly-updates-info">
+          <h4 className="weekly-updates-title">Cypress Weekly Updates</h4>
+          <p className="weekly-updates-body">
+            Get local resources and events sent to your inbox every week.
+          </p>
+        </div>
 
-      {status === "success" ? (
-        <div className="hp-subscribe__success">✓ You're on the list!</div>
-      ) : (
-        <form onSubmit={handleSubscribe} className="hp-subscribe__form">
-          <input
-            type="email"
-            placeholder="your@email.com"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="hp-subscribe__input"
-          />
-          <button type="submit" className="hp-subscribe__btn">
-            Join
-          </button>
-        </form>
-      )}
+        <div className="weekly-updates-form-container">
+          {status === "success" ? (
+            <div className="weekly-updates-success">✓ You're on the list!</div>
+          ) : (
+            <form onSubmit={handleSubscribe} className="weekly-updates-form">
+              <input
+                type="email"
+                placeholder="your@email.com"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="weekly-updates-input"
+              />
+              <button type="submit" className="weekly-updates-btn">
+                Join
+              </button>
+            </form>
+          )}
+        </div>
+      </div>
     </div>
   );
 };
 
-export default Subscribe;
+export default WeeklyUpdates;

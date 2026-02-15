@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import ArrowIcon from "./shared/ArrowIcon";
 
 interface RowProps {
   title: string;
@@ -39,13 +40,16 @@ const ResourceRow: React.FC<RowProps> = ({
   return (
     <div className="category-row-container">
       <div className="section-header-flex">
-        <h2 className="category-title-large">{title}</h2>
-        <div style={{ display: "flex", gap: "10px" }}>
-          <button className="slider-arrow" onClick={() => scroll("left")}>
-            ←
+        <div className="header-title-with-arrows">
+          <h2 className="category-title-large">{title}</h2>
+          
+        </div>
+        <div className="desktop-arrow-controls">
+          <button className="slider-arrow" onClick={() => scroll("left")} aria-label="Scroll left">
+            <ArrowIcon direction="left" size="medium" />
           </button>
-          <button className="slider-arrow" onClick={() => scroll("right")}>
-            →
+          <button className="slider-arrow" onClick={() => scroll("right")} aria-label="Scroll right">
+            <ArrowIcon direction="right" size="medium" />
           </button>
         </div>
       </div>

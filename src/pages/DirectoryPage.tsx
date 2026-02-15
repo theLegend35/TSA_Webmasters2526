@@ -3,6 +3,7 @@ import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useAuth } from "../context/AuthContext";
 import ResourceDetailPage from "./ResourceDetailPage";
 import "./DirectoryPage.css";
 
@@ -19,6 +20,9 @@ interface Resource {
 }
 
 const DirectoryPage: React.FC = () => {
+  const { theme } = useAuth();
+  const isDark = theme === "dark";
+
   const [resources, setResources] = useState<Resource[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
@@ -162,7 +166,7 @@ const DirectoryPage: React.FC = () => {
     }, pageRef);
 
     return () => ctx.revert();
-  }, [loading, selectedCategory, searchTerm]);
+  }, [loading]);
 
   // Modal animation
   useEffect(() => {
@@ -273,7 +277,7 @@ const DirectoryPage: React.FC = () => {
   }
 
   return (
-    <div className="dir" ref={pageRef}>
+    <div className={`dir${isDark ? " dir--dark" : ""}`} ref={pageRef}>
       {/* Modal */}
       {modalOpen && (
         <div

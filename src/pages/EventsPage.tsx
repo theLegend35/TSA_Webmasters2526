@@ -124,7 +124,7 @@ const EventsPage: React.FC = () => {
     }, pageRef);
 
     return () => ctx.revert();
-  }, [loading, activeCategory, searchTerm]);
+  }, [loading]);
 
   useEffect(() => {
     const handleScroll = () => setShowBackToTop(window.scrollY > 400);

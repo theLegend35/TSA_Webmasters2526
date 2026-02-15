@@ -6,6 +6,8 @@ import {
   query,
   limit,
   onSnapshot,
+  doc,
+  getDoc,
 } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import gsap from "gsap";
@@ -14,28 +16,15 @@ import ResourceForm from "../components/ResourceForm";
 import ResourceRow from "../components/ResourceRow";
 import Hero from "../components/Hero";
 import ResourceDetailPage from "./ResourceDetailPage";
-import Subscribe from "../components/Subscribe";
+import EventMapEmbed from "../components/EventMapEmbed";
+import ParkingLot3D from "../components/ParkingLot3D";
+import ReservationForm from "../components/ReservationForm";
+import WeeklyUpdates from "../components/Subscribe";
+import ArrowIcon from "../components/shared/ArrowIcon";
 import { useAuth } from "../context/AuthContext";
 import "../HomePage.css";
 
 gsap.registerPlugin(ScrollTrigger);
-
-/* ── icons ── */
-const ArrowIcon = () => (
-  <svg
-    width="16"
-    height="16"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2.5"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <line x1="5" y1="12" x2="19" y2="12" />
-    <polyline points="12 5 19 12 12 19" />
-  </svg>
-);
 const ChevronUp = () => (
   <svg
     width="20"
@@ -49,6 +38,135 @@ const ChevronUp = () => (
   </svg>
 );
 
+// Event modal for homepage
+interface EventModalContentProps {
+  eventId: string;
+  onClose: () => void;
+}
+
+const EventModalContent: React.FC<EventModalContentProps> = ({ eventId, onClose }) => {
+  const [event, setEvent] = useState<any>(null);
+  const [selectedSpot, setSelectedSpot] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchEvent = async () => {
+      try {
+        const eventDoc = await getDoc(doc(db, "events", eventId));
+        if (eventDoc.exists()) {
+          setEvent({ id: eventDoc.id, ...eventDoc.data() });
+        }
+      } catch (error) {
+        console.error("Error fetching event:", error);
+      }
+    };
+    fetchEvent();
+  }, [eventId]);
+
+  if (!event) return null;
+
+  const formatDateTime = (event: any) => {
+    let dateObj: Date | null = null;
+    if (event.eventDate?.seconds) {
+      dateObj = new Date(event.eventDate.seconds * 1000);
+    } else if (typeof event.eventDate === "string") {
+      const parsed = Date.parse(event.eventDate.replace("•", ""));
+      dateObj = isNaN(parsed) ? null : new Date(parsed);
+    }
+
+    if (!dateObj) return event.eventDate;
+
+    const datePart = dateObj.toLocaleDateString("en-US", {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+    });
+    const timePart = event.timeText || (dateObj.getHours() !== 0 || dateObj.getMinutes() !== 0
+      ? dateObj.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+      })
+      : "");
+
+    return `${datePart}${timePart ? ` • ${timePart}` : ""}`;
+  };
+
+  return (
+    <>
+      <span className="ev__detail-badge">{event.category}</span>
+      <h2 className="ev__detail-title">{event.name}</h2>
+
+      <div className="ev__detail-grid">
+        <div className="ev__detail-box">
+          <div className="ev__detail-label">When</div>
+          <p className="ev__detail-value">{formatDateTime(event)}</p>
+        </div>
+        <div className="ev__detail-box">
+          <div className="ev__detail-label">Where</div>
+          <p className="ev__detail-value">{event.location}</p>
+        </div>
+      </div>
+
+      <div className="ev__detail-desc">
+        <p>{event.description}</p>
+      </div>
+
+      <div className="evx-experience">
+        <div className="evx-grid">
+          <section className="evx-card">
+            <h3 className="evx-card-title">Map & Arrival</h3>
+            <p className="evx-card-sub">Navigate straight to the event entrance.</p>
+            <EventMapEmbed location={event.location} />
+          </section>
+
+          <section className="evx-card">
+            <h3 className="evx-card-title">Parking Lot (3D)</h3>
+            <p className="evx-card-sub">Tap a green or gold spot to reserve.</p>
+            <ParkingLot3D selectedSpot={selectedSpot} onSelectSpot={setSelectedSpot} />
+            <div className="evx-legend">
+              <span>
+                <span className="evx-dot evx-dot--open" /> Open
+              </span>
+              <span>
+                <span className="evx-dot evx-dot--reserved" /> Reserved
+              </span>
+              <span>
+                <span className="evx-dot evx-dot--premium" /> Premium
+              </span>
+            </div>
+          </section>
+        </div>
+
+        <section className="evx-card">
+          <h3 className="evx-card-title">Reservation</h3>
+          <p className="evx-card-sub">Secure your place and parking in one step.</p>
+          <ReservationForm eventId={eventId} eventName={event.name} selectedSpot={selectedSpot} />
+        </section>
+      </div>
+
+      {event.url && (
+        <a
+          href={event.url}
+          target="_blank"
+          rel="noreferrer"
+          className="ev__detail-btn"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+            <polyline points="15 3 21 3 21 9" />
+            <line x1="10" y1="14" x2="21" y2="3" />
+          </svg>
+          Visit Official Website
+        </a>
+      )}
+    </>
+  );
+};
+
 const HomePage: React.FC = () => {
   const { theme } = useAuth();
   const isDark = theme === "dark";
@@ -61,6 +179,7 @@ const HomePage: React.FC = () => {
   const [selectedResourceId, setSelectedResourceId] = useState<string | null>(
     null,
   );
+  const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
 
   const formRef = useRef<HTMLDivElement>(null);
   const hpRef = useRef<HTMLDivElement>(null);
@@ -69,7 +188,7 @@ const HomePage: React.FC = () => {
 
   // Lock body scroll when modal is open
   useEffect(() => {
-    if (selectedResourceId) {
+    if (selectedResourceId || selectedEventId) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
@@ -77,7 +196,7 @@ const HomePage: React.FC = () => {
     return () => {
       document.body.style.overflow = "";
     };
-  }, [selectedResourceId]);
+  }, [selectedResourceId, selectedEventId]);
 
   useEffect(() => {
     const handleScroll = () => setShowBackToTop(window.scrollY > 500);
@@ -450,6 +569,24 @@ const HomePage: React.FC = () => {
         </div>
       )}
 
+      {/* ── Event Modal ── */}
+      {selectedEventId && liveEvents.length > 0 && (
+        <div className="hp-modal" onClick={() => setSelectedEventId(null)}>
+          <div className="hp-modal__body" onClick={(e) => e.stopPropagation()}>
+            <button
+              className="hp-modal__close"
+              onClick={() => setSelectedEventId(null)}
+            >
+              &#10005;
+            </button>
+            <EventModalContent
+              eventId={selectedEventId}
+              onClose={() => setSelectedEventId(null)}
+            />
+          </div>
+        </div>
+      )}
+
       {/* ── Back-to-top ── */}
       <button
         className={`hp-top ${showBackToTop ? "hp-top--show" : ""}`}
@@ -570,7 +707,18 @@ const HomePage: React.FC = () => {
                 </div>
                 <div className="hp-events hp-events--bar">
                   {liveEvents.map((ev) => (
-                    <Link to={`/event/${ev.id}`} key={ev.id} className="hp-ev">
+                    <div
+                      key={ev.id}
+                      className="hp-ev"
+                      onClick={() => setSelectedEventId(ev.id)}
+                      role="button"
+                      tabIndex={0}
+                      onKeyPress={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          setSelectedEventId(ev.id);
+                        }
+                      }}
+                    >
                       <div className="hp-ev__date">
                         <span className="hp-ev__month">{ev.monthStr}</span>
                         <span className="hp-ev__day">{ev.dayStr}</span>
@@ -582,7 +730,7 @@ const HomePage: React.FC = () => {
                         )}
                         <span className="hp-ev__meta">{ev.location}</span>
                       </div>
-                    </Link>
+                    </div>
                   ))}
                   {liveEvents.length === 0 && (
                     <p className="hp-ev__empty">No upcoming events yet.</p>
@@ -590,6 +738,8 @@ const HomePage: React.FC = () => {
                 </div>
               </div>
 
+              <div className="hp-spacer" />
+              <WeeklyUpdates />
               <div className="hp-spacer" />
               <h2 className="hp-h2">Explore by Category</h2>
               <ResourceRow
@@ -604,12 +754,6 @@ const HomePage: React.FC = () => {
               />
             </div>
 
-            {/* Sidebar */}
-            <aside className="hp-side">
-              <div className="hp-side__card hp-side__subscribe">
-                <Subscribe />
-              </div>
-            </aside>
           </div>
         </div>
       </section>

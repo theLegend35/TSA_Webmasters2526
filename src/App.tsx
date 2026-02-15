@@ -189,6 +189,16 @@ function NavBarContent() {
   );
 }
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
+
 function App() {
   const { loading, theme } = useAuth();
 
@@ -201,6 +211,7 @@ function App() {
 
   return (
     <Router>
+      <ScrollToTop />
       <div className="site-wrapper">
         <NavBarContent />
         <main className="content-area">

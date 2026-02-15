@@ -1,10 +1,10 @@
 import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-interface SliderProps { 
-  title: string; 
-  items: any[]; 
-  isFeatured?: boolean; 
+interface SliderProps {
+  title: string;
+  items: any[];
+  isFeatured?: boolean;
 }
 
 const CategorySlider: React.FC<SliderProps> = ({ title, items, isFeatured }) => {
@@ -30,30 +30,30 @@ const CategorySlider: React.FC<SliderProps> = ({ title, items, isFeatured }) => 
 
       <div className="resources-slider-container" ref={scrollRef}>
         {items.map((res, i) => (
-          <div 
-            key={res.id || i} 
+          <div
+            key={res.id || i}
             className={`resource-card clickable-card ${isFeatured ? 'large-featured-card' : ''}`}
             onClick={() => navigate(`/resource/${res.id}`)}
           >
             <div className="card-image-placeholder">
-               {res.imageUrl ? (
-                 <img src={res.imageUrl} alt={res.name} className="card-main-img" />
-               ) : (
-                 <div className="image-icon-fallback">{isFeatured ? '⭐' : 'Hub'}</div>
-               )}
-               <span className="category-tag-alt">{res.category}</span>
+              {res.imageUrl ? (
+                <img src={res.imageUrl} alt={res.name} className="card-main-img" />
+              ) : (
+                <div className="image-icon-fallback">{isFeatured ? '⭐' : 'Hub'}</div>
+              )}
+              <span className="category-tag-alt">{res.category}</span>
             </div>
 
             <div className="card-details">
               <h3>{res.name}</h3>
               <p>{res.description?.substring(0, isFeatured ? 120 : 75)}...</p>
-              
+
               <div className="card-contact-actions">
                 {res.link && (
-                  <a 
-                    href={res.link} 
-                    target="_blank" 
-                    rel="noreferrer" 
+                  <a
+                    href={res.link}
+                    target="_blank"
+                    rel="noreferrer"
                     className="learn-more-link"
                     onClick={(e) => e.stopPropagation()}
                   >

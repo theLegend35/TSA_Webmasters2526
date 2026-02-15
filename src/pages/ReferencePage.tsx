@@ -1,7 +1,9 @@
 import React, { useRef, useLayoutEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import ArrowIcon from '../components/shared/ArrowIcon';
 import './ReferencePage.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -145,6 +147,8 @@ const ReferencePage: React.FC = () => {
 
   return (
     <div ref={pageRef} className={`ref ${isDark ? 'ref--dark' : ''}`}>
+
+
       <div className="ref__wrapper">
         {/* Hero */}
         <header className="ref__hero">
@@ -241,6 +245,26 @@ const ReferencePage: React.FC = () => {
                   <td>Framework / Backend</td>
                   <td>React / Firebase / Netlify</td>
                   <td>Core application logic, database storage, and cloud deployment.</td>
+                </tr>
+                <tr>
+                  <td>3D Component</td>
+                  <td>Three.js Library</td>
+                  <td><a href="https://threejs.org/" target="_blank" rel="noreferrer" className="ref__table-link">https://threejs.org/</a> - 3D parking lot visualization</td>
+                </tr>
+                <tr>
+                  <td>Map Integration</td>
+                  <td>Google Maps API</td>
+                  <td><a href="https://developers.google.com/maps" target="_blank" rel="noreferrer" className="ref__table-link">https://developers.google.com/maps</a> - Event location embedding</td>
+                </tr>
+                <tr>
+                  <td>Component</td>
+                  <td>Custom EventMapEmbed</td>
+                  <td>Team-developed interactive event map component for location preview.</td>
+                </tr>
+                <tr>
+                  <td>Component</td>
+                  <td>Custom ReservationForm</td>
+                  <td>Team-developed event reservation form with parking integration.</td>
                 </tr>
                 {sources.map((item, index) => (
                   <tr key={index}>

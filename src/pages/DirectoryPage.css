@@ -21,7 +21,8 @@
 
 /* ── Dark Mode ────────────────────────── */
 [data-theme="dark"] .dir,
-.dark .dir {
+.dark .dir,
+.dir--dark {
   --dir-ink: #f5f5f5;
   --dir-surface: #1a1a1a;
   --dir-bg: #0d0d0d;
