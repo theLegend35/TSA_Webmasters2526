@@ -18,6 +18,7 @@ import EventDetailPage from "./pages/EventDetailPage";
 import LoginPage from "./pages/LoginPage";
 import LeaderDashboard from "./pages/LeaderDashboard";
 import AboutPage from "./pages/AboutPage";
+import GamePage from "./pages/GamePage";
 
 function NavBarContent() {
   const { user, logout, theme, toggleTheme } = useAuth();
@@ -104,6 +105,9 @@ function NavBarContent() {
             <Link to="/about" className={isActive("/about")}>
               About
             </Link>
+            <Link to="/game" className={isActive("/game")}>
+              Game
+            </Link>
           </div>
 
           <div className="nav__right">
@@ -184,6 +188,13 @@ function NavBarContent() {
         >
           About
         </Link>
+        <Link
+          to="/game"
+          className={isActive("/game")}
+          onClick={() => setMenuOpen(false)}
+        >
+          Game
+        </Link>
       </div>
     </>
   );
@@ -225,6 +236,7 @@ function App() {
             <Route path="/dashboard" element={<LeaderDashboard />} />
             <Route path="/references" element={<ReferencePage />} />
             <Route path="/about" element={<AboutPage />} />
+            <Route path="/game" element={<GamePage />} />
           </Routes>
         </main>
       </div>

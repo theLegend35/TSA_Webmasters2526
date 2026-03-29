@@ -1,0 +1,326 @@
+/* ═══════════════════════════════════════
+   GAME PAGE — ADVENTURE QUEST
+   ═══════════════════════════════════════ */
+
+/* ── Tokens ───────────────────────────── */
+.game-page {
+  --gp-gold: #fbbf24;
+  --gp-gold-light: #fde68a;
+  --gp-green: #4ade80;
+  --gp-blue: #60a5fa;
+  --gp-ink: #0d0d0d;
+  --gp-surface: #ffffff;
+  --gp-bg: #f0fdf4;
+  --gp-muted: #4b5563;
+  --gp-border: rgba(0, 0, 0, 0.08);
+  --gp-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+  --gp-radius: 20px;
+}
+
+.game-page--dark {
+  --gp-ink: #f1f5f9;
+  --gp-surface: #1a2310;
+  --gp-bg: #0d1407;
+  --gp-muted: #94a3b8;
+  --gp-border: rgba(255, 255, 255, 0.08);
+  --gp-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* ── Layout ───────────────────────────── */
+.game-page {
+  min-height: 100vh;
+  background: var(--gp-bg);
+  color: var(--gp-ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 24px 80px;
+  font-family: "Sora", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* ── Header ───────────────────────────── */
+.game-page__header {
+  text-align: center;
+  margin-bottom: 32px;
+  max-width: 640px;
+}
+
+.game-page__badge {
+  display: inline-block;
+  padding: 6px 14px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--gp-gold);
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.game-page__title {
+  font-family: "Fraunces", serif;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--gp-ink);
+  margin: 0 0 12px;
+}
+
+.game-page__sub {
+  font-size: 1rem;
+  color: var(--gp-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── Arena wrapper ────────────────────── */
+.game-page__arena {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 760px;
+}
+
+/* ── HUD ──────────────────────────────── */
+.game-hud {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+  background: var(--gp-surface);
+  border: 1px solid var(--gp-border);
+  border-bottom: none;
+  border-radius: var(--gp-radius) var(--gp-radius) 0 0;
+  padding: 14px 24px;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.game-hud__hearts {
+  display: flex;
+  gap: 4px;
+  font-size: 1.4rem;
+}
+
+.game-hud__heart--empty {
+  opacity: 0.35;
+  filter: grayscale(1);
+}
+
+.game-hud__score,
+.game-hud__gems {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.game-hud__score-label,
+.game-hud__gems-label {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--gp-muted);
+  text-transform: uppercase;
+}
+
+.game-hud__score-value {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--gp-gold);
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+
+.game-hud__gems-value {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--gp-blue);
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Canvas ───────────────────────────── */
+.game-page__canvas {
+  display: block;
+  border: 1px solid var(--gp-border);
+  border-radius: 0 0 var(--gp-radius) var(--gp-radius);
+  box-shadow: var(--gp-shadow);
+  max-width: 100%;
+  cursor: crosshair;
+  background: #0d1407;
+}
+
+/* ── Overlay (won / lost) ─────────────── */
+.game-page__overlay {
+  position: absolute;
+  top: 56px; /* below hud */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 0 0 var(--gp-radius) var(--gp-radius);
+  background: rgba(0, 0, 0, 0.78);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  z-index: 10;
+  padding: 24px;
+}
+
+.game-page__overlay-icon {
+  font-size: 4rem;
+  line-height: 1;
+  animation: gp-bounce 0.7s ease infinite alternate;
+}
+
+@keyframes gp-bounce {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-12px); }
+}
+
+.game-page__overlay-title {
+  font-family: "Fraunces", serif;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 400;
+  color: #fff;
+  margin: 0;
+}
+
+.game-page__overlay-sub {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.7);
+  margin: 0;
+}
+
+.game-page__overlay-score {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--gp-gold);
+  margin: 8px 0 0;
+}
+
+.game-page__restart-btn {
+  margin-top: 16px;
+  padding: 14px 36px;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: "Sora", sans-serif;
+  color: #fff;
+  background: linear-gradient(135deg, var(--gp-gold), #f59e0b);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 20px rgba(251, 191, 36, 0.4);
+}
+
+.game-page__restart-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(251, 191, 36, 0.5);
+}
+
+.game-page__restart-btn:active {
+  transform: translateY(0);
+}
+
+/* ── Controls guide ───────────────────── */
+.game-page__controls {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.game-page__key-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.game-page__key-row {
+  display: flex;
+  gap: 4px;
+}
+
+.game-page__key {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 8px;
+  background: var(--gp-surface);
+  border: 1px solid var(--gp-border);
+  border-bottom-width: 3px;
+  border-radius: 8px;
+  font-family: "Sora", monospace;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--gp-ink);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+}
+
+.game-page__key--sm {
+  min-width: 28px;
+  height: 28px;
+  font-size: 0.7rem;
+}
+
+.game-page__or {
+  font-size: 0.85rem;
+  color: var(--gp-muted);
+}
+
+.game-page__ctrl-hint {
+  font-size: 0.85rem;
+  color: var(--gp-muted);
+  text-align: center;
+  line-height: 1.6;
+}
+
+.game-page__ctrl-hint kbd {
+  vertical-align: middle;
+}
+
+/* ── Responsive ───────────────────────── */
+@media (max-width: 800px) {
+  .game-page__canvas {
+    width: 100%;
+    height: auto;
+  }
+
+  .game-hud {
+    padding: 10px 16px;
+    gap: 16px;
+  }
+
+  .game-hud__hearts {
+    font-size: 1.2rem;
+  }
+
+  .game-hud__score-value,
+  .game-hud__gems-value {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .game-page {
+    padding: 32px 16px 60px;
+  }
+
+  .game-page__controls {
+    gap: 12px;
+  }
+
+  .game-page__ctrl-hint {
+    font-size: 0.8rem;
+  }
+}
